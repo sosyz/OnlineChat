@@ -41,10 +41,14 @@ public class SnowFlakeFactory {
     private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
     private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
 
-    private long datacenterId;  //数据中心
-    private long machineId;     //机器标识
-    private long sequence = 0L; //序列号
-    private long lastStmp = -1L;//上一次时间戳
+    //数据中心
+    private long datacenterId;
+    //机器标识
+    private long machineId;
+    //序列号
+    private long sequence = 0L;
+    //上一次时间戳
+    private long lastStmp = -1L;
 
     /**
      * 最大容忍时间, 单位毫秒, 即如果时钟只是回拨了该变量指定的时间, 那么等待相应的时间即可;
@@ -141,12 +145,11 @@ public class SnowFlakeFactory {
 
         lastStmp = currStmp;
 
-        long id = (currStmp - START_STMP) << (TIMESTMP_LEFT - extension)   //时间戳部分
+        //如果时间戳回拨就让时间少移动一位
+        return (currStmp - START_STMP) << (TIMESTMP_LEFT - extension) //时间戳部分
                 | datacenterId << DATACENTER_LEFT                       //数据中心部分
                 | machineId << MACHINE_LEFT                             //机器标识部分
-                | sequence;                                             //序列号部分
-        //如果时间戳回拨就让时间少移动一位
-        return id;
+                | sequence;
     }
 
     /**
