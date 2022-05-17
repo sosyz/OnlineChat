@@ -89,7 +89,27 @@ public interface UserMapper {
     @Result(column = "last_login_time", property = "lastLoginTime", javaType = Date.class)
     @Result(column = "last_login_ip", property = "lastLoginIp", javaType = String.class)
     @Result(column = "private_id", property = "privateId", javaType = Long.class)
-    User getUserInfo(@Param("uid") Long uid);
+    User getUserInfoByUid(@Param("uid") Long uid);
+
+    /**
+     * 获取用户信息
+     *
+     * @param key 用户名或邮箱
+     * @return 用户信息
+     */
+    @Select("SELECT " +
+            "* " +
+            "FROM " +
+            "`users` " +
+            "WHERE " +
+            "`user_name` = #{key} OR `email` = #{key}")
+    @Result(column = "nick_name", property = "nickName", javaType = String.class)
+    @Result(column = "user_name", property = "userName", javaType = String.class)
+    @Result(column = "register_time", property = "registerTime", javaType = Date.class)
+    @Result(column = "last_login_time", property = "lastLoginTime", javaType = Date.class)
+    @Result(column = "last_login_ip", property = "lastLoginIp", javaType = String.class)
+    @Result(column = "private_id", property = "privateId", javaType = Long.class)
+    User getUserInfoByKey(@Param("key") String key);
 
     /**
      * 获取用户列表
