@@ -2,10 +2,14 @@ package cn.sonui.onlinechat.controller;
 
 import cn.sonui.onlinechat.VO.LoginVO;
 import cn.sonui.onlinechat.VO.UserInfoVO;
+import cn.sonui.onlinechat.VO.VO;
 import cn.sonui.onlinechat.model.User;
 import cn.sonui.onlinechat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/v1/api/user")
@@ -14,19 +18,23 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("login")
-    public LoginVO login(
+    public VO login(
             @RequestParam("username") String username,
-            @RequestParam("password") String password
+            @RequestParam("password") String password,
+            HttpServletResponse responseBody
     ){
-        LoginVO ret = new LoginVO();
+        VO ret = new LoginVO();
         String token = userService.login(username, password);
         if (token == null) {
             ret.setCode(1);
             ret.setMsg("用户名或密码错误");
         }else{
+            Cookie cookie = new Cookie("token", token);
+            //Https 安全cookie
+            cookie.setSecure(true);
+            responseBody.addCookie(cookie);
             ret.setCode(0);
             ret.setMsg("登录成功");
-            ret.setToken(token);
         }
         return ret;
     }
