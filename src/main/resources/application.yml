@@ -1,0 +1,43 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 30MB
+  datasource:
+    url: jdbc:mysql://[::1]:3306/OnlineChat?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  rabbitmq:
+    host: '[::1]' # RabbitMQ 服务的地址
+    port: 5672
+    username: chat
+    password: 123456
+  redis:
+    host: '[::1]'
+    port: 6379
+    password: # Redis 服务器密码，默认为空。生产中，一定要设置 Redis 密码！
+    database: 0 # Redis 数据库号，默认为 0 。
+    timeout: 30000 # Redis 连接超时时间，单位：毫秒。
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+    - classpath*:com/**/mapper/*.xml
+  type-aliases-package: cn.sonui.onlinechat.model
+
+server:
+  port: 80
+
+config:
+  name: OnlineChat
+  version: 1.0.0
+
+springfox:
+  documentation:
+    enabled: true
+
+# 雪花算法配置数据中心和机器编号，不同机器组合不能重复
+snowflake:
+  datacenterId: 1
+  machineId: 2
