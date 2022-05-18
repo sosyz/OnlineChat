@@ -1,16 +1,16 @@
 package cn.sonui.onlinechat.model;
 
 public class Group {
-    private long groupId;
+    private String id;
     private String name;
     private String avatar;
 
-    public long getGroupId() {
-        return groupId;
+    public String getGroupId() {
+        return id;
     }
 
-    public void setGroupId(long groupId) {
-        this.groupId = groupId;
+    public void setGroupId(String groupId) {
+        this.id = groupId;
     }
 
     public String getName() {
