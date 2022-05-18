@@ -1,6 +1,5 @@
 package cn.sonui.onlinechat.service;
 
-import cn.sonui.onlinechat.VO.UserInfoVO;
 import cn.sonui.onlinechat.model.User;
 
 public interface UserService {
@@ -18,5 +17,12 @@ public interface UserService {
      * @param token token
      * @return 用户个人信息
      */
-    User Self(String token);
+    User self(String token);
+
+    /**
+     * 用户公开信息
+     * @param key 用户名/邮箱
+     * @return 用户信息
+     */
+    User info(String key);
 }

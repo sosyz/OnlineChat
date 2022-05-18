@@ -7,6 +7,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class LoginVO implements VO {
     private Integer code;
     private String msg;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public Integer getCode() {
         return code;
     }
@@ -21,6 +31,12 @@ public class LoginVO implements VO {
 
     public void setMsg(String message) {
         this.msg = message;
+    }
+
+    public LoginVO(Integer code, String msg, String token) {
+        this.code = code;
+        this.msg = msg;
+        this.token = token;
     }
 
     public LoginVO(Integer code, String msg) {
