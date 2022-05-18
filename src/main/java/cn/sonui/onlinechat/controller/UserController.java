@@ -1,7 +1,7 @@
 package cn.sonui.onlinechat.controller;
 
-import cn.sonui.onlinechat.VO.impl.LoginVO;
-import cn.sonui.onlinechat.VO.impl.UserInfoVO;
+import cn.sonui.onlinechat.VO.impl.user.LoginVO;
+import cn.sonui.onlinechat.VO.impl.user.UserInfoVO;
 import cn.sonui.onlinechat.model.User;
 import cn.sonui.onlinechat.service.UserService;
 
@@ -17,7 +17,26 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("login")
+    @PostMapping("/register")
+    public LoginVO register(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            @RequestParam("email") String email,
+            @RequestParam("nickname") String nickname,
+            @RequestParam("avatar") String avatar,
+            @RequestParam("readme") String readme
+    ){
+        LoginVO ret;
+        Integer r = userService.register(new User(username, password, email, nickname, avatar, readme, (short) 0));
+        if (r != 1) {
+            ret = new LoginVO(1, "注册失败");
+        }else {
+            ret = new LoginVO(0, "注册成功");
+        }
+        return ret;
+    }
+
+    @PostMapping("/login")
     public LoginVO login(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
@@ -37,7 +56,7 @@ public class UserController {
         return ret;
     }
 
-    @GetMapping("self")
+    @GetMapping("/self")
     public UserInfoVO myself(
             @CookieValue(value = "token", defaultValue = "") String token
     ) {
@@ -55,7 +74,7 @@ public class UserController {
         return ret;
     }
 
-    @GetMapping("info")
+    @GetMapping("/info")
     public UserInfoVO userInfo(
             @RequestParam("key") String key
     ) {

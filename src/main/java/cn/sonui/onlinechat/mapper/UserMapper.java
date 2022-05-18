@@ -25,7 +25,7 @@ public interface UserMapper {
     @Result(column = "last_login_time", property = "lastLoginTime", javaType = Date.class)
     @Result(column = "last_login_ip", property = "lastLoginIp", javaType = String.class)
     @Result(column = "private_id", property = "privateId", javaType = Long.class)
-    int register(User user);
+    Integer register(User user);
 
     /**
      * 用户登录
@@ -146,7 +146,7 @@ public interface UserMapper {
             "`private_id` = #{privateId} " +
             "WHERE " +
             "`uid` = #{uid}")
-    int updateUser(User user);
+    Integer updateUser(User user);
 
     /**
      * 查询是否已存在该用户名
@@ -160,5 +160,5 @@ public interface UserMapper {
             "`users` " +
             "WHERE " +
             "`user_name` = #{username}")
-    int checkUserName(@Param("username") String username);
+    Integer checkUserName(@Param("username") String username);
 }

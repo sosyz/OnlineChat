@@ -22,13 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     ProjectConfig projectConfig;
-    /**
-     * 用户登录
-     *
-     * @param key 用户名
-     * @param password 密码
-     * @return 成功返回token，失败返回null
-     */
+
     @Override
     public String login(String key, String password) {
         User res = userMapper.checkLoginByKey(key, password);
@@ -44,12 +38,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    /**
-     * 登录者信息
-     *
-     * @param token token
-     * @return 用户个人信息
-     */
     @Override
     public User self(String token) {
         return cache.get(token, User.class);
@@ -58,5 +46,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User info(String key) {
         return userMapper.getUserInfoByKey(key);
+    }
+
+    @Override
+    public Integer register(User user) {
+        // 判断用户是否存在
+        User ret = userMapper.checkLoginByModel(user);
+        if (ret != null) {
+            // 存在返回影响行数0 即失败
+            return 0;
+        }else {
+            // 不存在返回sql执行影响行数
+            return userMapper.register(user);
+        }
     }
 }

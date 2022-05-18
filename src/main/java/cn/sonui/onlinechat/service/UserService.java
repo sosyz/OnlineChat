@@ -25,4 +25,11 @@ public interface UserService {
      * @return 用户信息
      */
     User info(String key);
+
+    /**
+     * 用户注册
+     *
+     * @param user 用户信息
+     */
+    Integer register(User user);
 }
