@@ -1,7 +1,11 @@
-package cn.sonui.onlinechat.VO;
+package cn.sonui.onlinechat.VO.impl;
+
+import cn.sonui.onlinechat.VO.VO;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserInfoVO implements VO {
     private Integer code = 0;
 
@@ -9,13 +13,13 @@ public class UserInfoVO implements VO {
     private String name;
     private String avatar;
     private String nickname;
-    private short grade;
+    private Short grade;
     private String email;
     private String readme;
     private Date registerTime;
     private Date lastLoginTime;
     private String lastLoginIp;
-    private long privateId;
+    private Long privateId;
 
     public UserInfoVO() {
     }
@@ -25,7 +29,9 @@ public class UserInfoVO implements VO {
         this.msg = msg;
     }
 
-    public UserInfoVO(String name, String avatar, String nickname, short grade, String email, String readme, Date registerTime, Date lastLoginTime, String lastLoginIp, long privateId) {
+    public UserInfoVO(Integer code, String msg, String name, String avatar, String nickname, short grade, String email, String readme, Date registerTime, Date lastLoginTime, String lastLoginIp, long privateId) {
+        this.code = code;
+        this.msg = msg;
         this.name = name;
         this.avatar = avatar;
         this.nickname = nickname;
@@ -62,11 +68,11 @@ public class UserInfoVO implements VO {
         this.nickname = nickname;
     }
 
-    public short getGrade() {
+    public Short getGrade() {
         return grade;
     }
 
-    public void setGrade(short grade) {
+    public void setGrade(Short grade) {
         this.grade = grade;
     }
 
@@ -110,11 +116,11 @@ public class UserInfoVO implements VO {
         this.lastLoginIp = lastLoginIp;
     }
 
-    public long getPrivateId() {
+    public Long getPrivateId() {
         return privateId;
     }
 
-    public void setPrivateId(long privateId) {
+    public void setPrivateId(Long privateId) {
         this.privateId = privateId;
     }
 

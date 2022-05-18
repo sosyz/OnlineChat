@@ -1,7 +1,9 @@
-package cn.sonui.onlinechat.VO;
+package cn.sonui.onlinechat.VO.impl;
 
-import cn.sonui.onlinechat.model.User;
+import cn.sonui.onlinechat.VO.VO;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LoginVO implements VO {
     private Integer code;
     private String msg;
@@ -19,5 +21,13 @@ public class LoginVO implements VO {
 
     public void setMsg(String message) {
         this.msg = message;
+    }
+
+    public LoginVO(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public LoginVO() {
     }
 }
