@@ -56,6 +56,10 @@ public class UserServiceImpl implements UserService {
             // 存在返回影响行数0 即失败
             return 0;
         }else {
+            // 禁止特定词注册
+            if ("root".equalsIgnoreCase(user.getUserName()) || "admin".equalsIgnoreCase(user.getUserName())){
+                return 0;
+            }
             // 不存在返回sql执行影响行数
             return userMapper.register(user);
         }

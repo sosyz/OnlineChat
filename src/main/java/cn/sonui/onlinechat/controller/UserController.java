@@ -5,6 +5,7 @@ import cn.sonui.onlinechat.VO.impl.user.UserInfoVO;
 import cn.sonui.onlinechat.model.User;
 import cn.sonui.onlinechat.service.UserService;
 
+import com.tairitsu.ignotus.cache.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CacheService cache;
     @PostMapping("/register")
     public LoginVO register(
             @RequestParam("username") String username,
@@ -42,6 +45,9 @@ public class UserController {
             @RequestParam("password") String password,
             HttpServletResponse responseBody
     ){
+        if (username.equals("") || password.equals("")) {
+            return new LoginVO(1, "用户名或密码不能为空");
+        }
         LoginVO ret;
         String token = userService.login(username, password);
         if (token == null) {
@@ -51,6 +57,7 @@ public class UserController {
             //Https 安全cookie
             cookie.setSecure(true);
             responseBody.addCookie(cookie);
+            cache.put(token, userService.info(username));
             ret = new LoginVO(0, "登录成功", token);
         }
         return ret;
