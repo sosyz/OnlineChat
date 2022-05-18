@@ -1,9 +1,21 @@
 package cn.sonui.onlinechat.model;
 
+import java.util.Date;
+
 public class GroupMembers {
     private String groupId;
     private String memberId;
     private long privateKey;
+
+    private Date joinTime;
+
+    public Date getJoinTime() {
+        return joinTime;
+    }
+
+    public void setJoinTime(Date joinTime) {
+        this.joinTime = joinTime;
+    }
 
     public String getGroupId() {
         return groupId;
