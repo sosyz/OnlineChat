@@ -1,6 +1,6 @@
-package cn.sonui.onlinechat.VO.impl.group;
+package cn.sonui.onlinechat.vo.impl.group;
 
-import cn.sonui.onlinechat.VO.VO;
+import cn.sonui.onlinechat.vo.VO;
 import cn.sonui.onlinechat.model.Group;
 
 public class GroupListVO implements VO {

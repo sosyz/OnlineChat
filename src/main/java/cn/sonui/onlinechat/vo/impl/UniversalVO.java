@@ -1,6 +1,6 @@
-package cn.sonui.onlinechat.VO.impl;
+package cn.sonui.onlinechat.vo.impl;
 
-import cn.sonui.onlinechat.VO.VO;
+import cn.sonui.onlinechat.vo.VO;
 
 public class UniversalVO implements VO {
     private Integer code;

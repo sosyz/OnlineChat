@@ -1,6 +1,6 @@
-package cn.sonui.onlinechat.VO.impl.user;
+package cn.sonui.onlinechat.vo.impl.user;
 
-import cn.sonui.onlinechat.VO.VO;
+import cn.sonui.onlinechat.vo.VO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

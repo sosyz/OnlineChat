@@ -1,4 +1,4 @@
-package cn.sonui.onlinechat.VO;
+package cn.sonui.onlinechat.vo;
 
 public interface VO {
     /**
