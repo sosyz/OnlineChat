@@ -141,6 +141,6 @@ public class UserInfoVO implements VO {
 
     @Override
     public void setMsg(String message) {
-        this.msg= message;
+        this.msg = message;
     }
 }

@@ -1,7 +1,7 @@
-package cn.sonui.onlinechat.VO.impl.group;
+package cn.sonui.onlinechat.vo.impl.group;
 
-import cn.sonui.onlinechat.VO.VO;
 import cn.sonui.onlinechat.model.User;
+import cn.sonui.onlinechat.vo.VO;
 
 public class GroupMembersListVO implements VO {
     private Integer code;

@@ -11,8 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface GroupMembersMapper {
     /**
      * 新建群员关系
+     *
      * @param groupId 群id
-     * @param userId 用户id
+     * @param userId  用户id
      * @return 是否成功
      */
     @Insert("insert into group_members(group_id,user_id, pri, join_time) values(#{groupId},#{userId}, #{privilege}, NOW())")
@@ -20,8 +21,9 @@ public interface GroupMembersMapper {
 
     /**
      * 删除群员关系
+     *
      * @param groupId 群id
-     * @param userId 用户id
+     * @param userId  用户id
      * @return 是否成功
      */
     @Delete("delete from group_members where group_id = #{groupId} and user_id = #{userId}")
@@ -30,8 +32,8 @@ public interface GroupMembersMapper {
     /**
      * 设置群员权限
      *
-     * @param groupId 群id
-     * @param userId 用户id
+     * @param groupId   群id
+     * @param userId    用户id
      * @param privilege 权限 0群员 1管理 2群主
      * @return 是否成功
      */
@@ -42,7 +44,7 @@ public interface GroupMembersMapper {
      * 查询群员权限
      *
      * @param groupId 群id
-     * @param userId 用户id
+     * @param userId  用户id
      * @return 权限 0群员 1管理 2群主
      */
     @Select("select pri from group_members where group_id = #{groupId} and user_id = #{userId}")
@@ -52,7 +54,7 @@ public interface GroupMembersMapper {
      * 查询是否存在群成员
      *
      * @param groupId 群id
-     * @param userId 用户id
+     * @param userId  用户id
      * @return 是否存在
      */
     @Select("select count(user_id) from group_members where group_id = #{groupId} and user_id = #{userId}")

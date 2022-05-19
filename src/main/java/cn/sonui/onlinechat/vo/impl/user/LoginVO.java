@@ -9,6 +9,20 @@ public class LoginVO implements VO {
     private String msg;
     private String token;
 
+    public LoginVO(Integer code, String msg, String token) {
+        this.code = code;
+        this.msg = msg;
+        this.token = token;
+    }
+
+    public LoginVO(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public LoginVO() {
+    }
+
     public String getToken() {
         return token;
     }
@@ -31,19 +45,5 @@ public class LoginVO implements VO {
 
     public void setMsg(String message) {
         this.msg = message;
-    }
-
-    public LoginVO(Integer code, String msg, String token) {
-        this.code = code;
-        this.msg = msg;
-        this.token = token;
-    }
-
-    public LoginVO(Integer code, String msg) {
-        this.code = code;
-        this.msg = msg;
-    }
-
-    public LoginVO() {
     }
 }

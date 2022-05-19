@@ -1,4 +1,5 @@
 package cn.sonui.onlinechat.utils;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +41,17 @@ public class SnowFlakeFactory {
     private final static long MACHINE_LEFT = SEQUENCE_BIT;
     private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
     private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
-
+    /**
+     * 最大容忍时间, 单位毫秒, 即如果时钟只是回拨了该变量指定的时间, 那么等待相应的时间即可;
+     * 考虑到sequence服务的高性能, 这个值不易过大
+     */
+    private static final long MAX_BACKWARD_MS = 5;
+    /**
+     * 保留machineId和lastTimestamp, 以及备用machineId和其对应的lastTimestamp
+     */
+    private static Map<Long, Long> machineIdLastTimeMap = new ConcurrentHashMap<>();
+    //最大扩展字段
+    private final long maxExtension = 2L;
     //数据中心
     private long datacenterId;
     //机器标识
@@ -51,25 +62,12 @@ public class SnowFlakeFactory {
     private long lastStmp = -1L;
 
     /**
-     * 最大容忍时间, 单位毫秒, 即如果时钟只是回拨了该变量指定的时间, 那么等待相应的时间即可;
-     * 考虑到sequence服务的高性能, 这个值不易过大
-     */
-    private static final long MAX_BACKWARD_MS = 5;
-
-    //最大扩展字段
-    private final long maxExtension = 2L;
-    /**
-     * 保留machineId和lastTimestamp, 以及备用machineId和其对应的lastTimestamp
-     */
-    private static Map<Long, Long> machineIdLastTimeMap = new ConcurrentHashMap<>();
-
-    /**
      * 初始化数据中心位，和机器标识
      * 0 < datacenterId < MAX_DATACENTER_NUM 31
      * 0 < machineId < MAX_MACHINE_NUM 31
      *
      * @param datacenterId 数据中心ID
-     * @param machineId   机器标识ID
+     * @param machineId    机器标识ID
      */
     public SnowFlakeFactory(long datacenterId, long machineId) {
         if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {

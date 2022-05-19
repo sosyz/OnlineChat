@@ -5,9 +5,9 @@ import cn.sonui.onlinechat.mapper.UserMapper;
 import cn.sonui.onlinechat.model.User;
 import cn.sonui.onlinechat.service.UserService;
 import cn.sonui.onlinechat.utils.SnowFlakeFactory;
+import com.tairitsu.ignotus.cache.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.tairitsu.ignotus.cache.CacheService;
 
 import static com.alibaba.druid.util.Utils.md5;
 
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
         User res = userMapper.checkLoginByKey(key, password);
         if (res == null) {
             return null;
-        }else {
+        } else {
             // 转为16进制
             String token = Long.toHexString(snowFlakeFactory.nextId());
             // 取md5
@@ -55,9 +55,9 @@ public class UserServiceImpl implements UserService {
         if (ret != null) {
             // 存在返回影响行数0 即失败
             return 0;
-        }else {
+        } else {
             // 禁止特定词注册
-            if ("root".equalsIgnoreCase(user.getUserName()) || "admin".equalsIgnoreCase(user.getUserName())){
+            if ("root".equalsIgnoreCase(user.getUserName()) || "admin".equalsIgnoreCase(user.getUserName())) {
                 return 0;
             }
             // 不存在返回sql执行影响行数

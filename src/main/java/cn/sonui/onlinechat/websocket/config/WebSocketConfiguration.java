@@ -1,7 +1,7 @@
 package cn.sonui.onlinechat.websocket.config;
 
-import cn.sonui.onlinechat.websocket.WebSocketShakeInterceptor;
 import cn.sonui.onlinechat.websocket.WebSocketHandler;
+import cn.sonui.onlinechat.websocket.WebSocketShakeInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;

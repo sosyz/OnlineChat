@@ -6,7 +6,8 @@ public interface UserService {
 
     /**
      * 用户登录
-     * @param key 用户名
+     *
+     * @param key      用户名
      * @param password 密码
      * @return 登录失败返回空，成果返回token
      */
@@ -14,6 +15,7 @@ public interface UserService {
 
     /**
      * 用户信息
+     *
      * @param token token
      * @return 用户个人信息
      */
@@ -21,6 +23,7 @@ public interface UserService {
 
     /**
      * 用户公开信息
+     *
      * @param key 用户名/邮箱
      * @return 用户信息
      */

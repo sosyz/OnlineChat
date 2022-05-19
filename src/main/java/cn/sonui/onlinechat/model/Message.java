@@ -7,8 +7,10 @@ public class Message {
     private long senderId;
     private long receiverId;
     private long groupId;
-    private MessageContent []content;
+    private MessageContent[] content;
     private Date timestamp;
+    private Integer status;
+    private Integer type;
 
     public long getId() {
         return id;
@@ -73,7 +75,4 @@ public class Message {
     public void setType(Integer type) {
         this.type = type;
     }
-
-    private Integer status;
-    private Integer type;
 }

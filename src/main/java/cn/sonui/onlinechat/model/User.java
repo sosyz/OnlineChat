@@ -17,7 +17,9 @@ public class User {
     private String lastLoginIp;
     private long privateId;
 
-    public User() {}
+    public User() {
+    }
+
     public User(String userName) {
         this.userName = userName;
     }
@@ -46,6 +48,12 @@ public class User {
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
+    }
+
+    public User(String userName, String password, String nickName) {
+        this.userName = userName;
+        this.password = password;
+        this.nickName = nickName;
     }
 
     public long getUid() {
@@ -169,11 +177,5 @@ public class User {
                 ", lastLoginIp='" + lastLoginIp + '\'' +
                 ", privateId=" + privateId +
                 '}';
-    }
-
-    public User(String userName, String password, String nickName) {
-        this.userName = userName;
-        this.password = password;
-        this.nickName = nickName;
     }
 }

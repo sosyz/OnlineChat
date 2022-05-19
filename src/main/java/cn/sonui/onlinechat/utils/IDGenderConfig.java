@@ -17,7 +17,7 @@ public class IDGenderConfig {
 
     @Bean
     public SnowFlakeFactory getSnowFlakeFactory() {
-        SnowFlakeFactory snowFlakeFactory = new SnowFlakeFactory(datacenterId,machineId);
+        SnowFlakeFactory snowFlakeFactory = new SnowFlakeFactory(datacenterId, machineId);
         return snowFlakeFactory;
     }
 }

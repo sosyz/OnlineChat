@@ -1,17 +1,13 @@
 package cn.sonui.onlinechat.vo.impl.group;
 
-import cn.sonui.onlinechat.vo.VO;
 import cn.sonui.onlinechat.model.Group;
+import cn.sonui.onlinechat.vo.VO;
 
 public class GroupListVO implements VO {
     private Integer code = 0;
     private String msg;
 
     private Group[] groups;
-
-    public Group[] getGroups() {
-        return groups;
-    }
 
     public GroupListVO() {
     }
@@ -20,6 +16,10 @@ public class GroupListVO implements VO {
         this.code = code;
         this.msg = msg;
         this.groups = groups;
+    }
+
+    public Group[] getGroups() {
+        return groups;
     }
 
     public void setGroups(Group[] groups) {

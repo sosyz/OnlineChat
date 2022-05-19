@@ -15,6 +15,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+
 import java.util.HashMap;
 
 public class WebSocketHandler extends TextWebSocketHandler implements InitializingBean {
@@ -23,16 +24,14 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
 
     /**
      * 消息类型与 MessageHandler 的映射
-     *
+     * <p>
      * 无需设置成静态变量
      */
     private final HashMap<String, MessageHandler> HANDLERS = new HashMap<>();
-
-    @Autowired
-    private ApplicationContext applicationContext;
-
     @Autowired
     CacheService cache;
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Override // 对应 open 事件
     public void afterConnectionEstablished(@NotNull WebSocketSession session) {
@@ -40,7 +39,7 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
         String token = (String) session.getAttributes().get("token");
         if (token == null) {
             logger.error("[WebSocket][afterConnectionEstablished][token 为空]");
-            try{
+            try {
                 session.close();
             } catch (Exception e) {
                 logger.error("[WebSocket][afterConnectionEstablished][关闭连接失败, msg:{}]", e.getMessage());

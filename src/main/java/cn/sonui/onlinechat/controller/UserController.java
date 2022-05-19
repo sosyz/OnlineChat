@@ -1,10 +1,9 @@
 package cn.sonui.onlinechat.controller;
 
-import cn.sonui.onlinechat.VO.impl.user.LoginVO;
-import cn.sonui.onlinechat.VO.impl.user.UserInfoVO;
 import cn.sonui.onlinechat.model.User;
 import cn.sonui.onlinechat.service.UserService;
-
+import cn.sonui.onlinechat.vo.impl.user.LoginVO;
+import cn.sonui.onlinechat.vo.impl.user.UserInfoVO;
 import com.tairitsu.ignotus.cache.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +19,7 @@ public class UserController {
 
     @Autowired
     private CacheService cache;
+
     @PostMapping("/register")
     public LoginVO register(
             @RequestParam("username") String username,
@@ -28,12 +28,12 @@ public class UserController {
             @RequestParam("nickname") String nickname,
             @RequestParam("avatar") String avatar,
             @RequestParam("readme") String readme
-    ){
+    ) {
         LoginVO ret;
         Integer r = userService.register(new User(username, password, email, nickname, avatar, readme, (short) 0));
         if (r != 1) {
             ret = new LoginVO(1, "注册失败");
-        }else {
+        } else {
             ret = new LoginVO(0, "注册成功");
         }
         return ret;
@@ -44,7 +44,7 @@ public class UserController {
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             HttpServletResponse responseBody
-    ){
+    ) {
         if (username.equals("") || password.equals("")) {
             return new LoginVO(1, "用户名或密码不能为空");
         }
@@ -52,7 +52,7 @@ public class UserController {
         String token = userService.login(username, password);
         if (token == null) {
             ret = new LoginVO(1, "用户名或密码错误");
-        }else{
+        } else {
             Cookie cookie = new Cookie("token", token);
             //Https 安全cookie
             cookie.setSecure(true);
@@ -74,7 +74,7 @@ public class UserController {
         User user = userService.self(token);
         if (user == null) {
             ret = new UserInfoVO(2, "用户不存在");
-        }else {
+        } else {
             ret = new UserInfoVO(0, "获取成功", user.getUserName(), user.getAvatar(), user.getNickName(), user.getGrade(), user.getEmail(), user.getReadme(),
                     user.getRegisterTime(), user.getLastLoginTime(), user.getLastLoginIp(), user.getPrivateId());
         }
@@ -89,7 +89,7 @@ public class UserController {
         User user = userService.info(key);
         if (user == null) {
             ret = new UserInfoVO(2, "用户不存在");
-        }else {
+        } else {
             ret = new UserInfoVO(0, "获取成功");
             ret.setNickname(user.getNickName());
             ret.setAvatar(user.getAvatar());

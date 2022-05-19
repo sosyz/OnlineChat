@@ -11,8 +11,8 @@ public interface GroupMapper {
     /**
      * 创建群组
      *
-     * @param groupId 群组id
-     * @param groupName 群组名称
+     * @param groupId     群组id
+     * @param groupName   群组名称
      * @param groupAvatar 群组头像
      */
     @Insert("INSERT INTO `groups`" +
@@ -48,12 +48,13 @@ public interface GroupMapper {
      */
     @Select("SELECT * FROM `groups`")
     Group[] queryAll();
+
     /**
      * 修改群信息
      *
-     * @param groupId 群组id
+     * @param groupId   群组id
      * @param groupName 群名称
-     * @param avatar 群头像
+     * @param avatar    群头像
      * @return 修改结果
      */
     @Select("UPDATE `groups`" +

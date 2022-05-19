@@ -1,12 +1,11 @@
 package cn.sonui.onlinechat.controller;
 
-import cn.sonui.onlinechat.VO.impl.UniversalVO;
-import cn.sonui.onlinechat.VO.impl.group.GroupListVO;
-
-import cn.sonui.onlinechat.VO.impl.group.GroupMembersListVO;
 import cn.sonui.onlinechat.model.User;
 import cn.sonui.onlinechat.service.GroupMembersService;
 import cn.sonui.onlinechat.service.GroupService;
+import cn.sonui.onlinechat.vo.impl.UniversalVO;
+import cn.sonui.onlinechat.vo.impl.group.GroupListVO;
+import cn.sonui.onlinechat.vo.impl.group.GroupMembersListVO;
 import com.tairitsu.ignotus.cache.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +42,7 @@ public class GroupController {
         // TODO: 直接信任头像URL有风险，做一个映射
         if (name.equals("") || key.equals("") || avatar.equals("")) {
             return new UniversalVO(1, "参数不能为空");
-        }else {
+        } else {
             Integer s = groupService.create(name, key, avatar);
             groupMembersService.addGroupMember(key, 1L, user.getUid());
             groupMembersService.setPri(key, user.getUid(), 2L);
@@ -63,7 +62,7 @@ public class GroupController {
 
         if (groupService.query(groupId) == null) {
             return new UniversalVO(1, "群组不存在");
-        }else {
+        } else {
             Integer res = groupMembersService.addGroupMember(groupId, 1L, user.getUid());
             return new UniversalVO(res != 1 ? res : 0, res != 1 ? "加入失败" : "加入成功");
         }
@@ -129,7 +128,7 @@ public class GroupController {
         User user = cache.get(token, User.class, null);
         if (user == null) {
             return new GroupMembersListVO(1, "请先登录");
-        }else {
+        } else {
             return new GroupMembersListVO(0, "查询完毕", groupMembersService.queryGroupMember(groupId, user.getUid()));
         }
     }

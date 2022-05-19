@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * 自定义 HttpSessionHandshakeInterceptor 拦截器
- *
+ * <p>
  * 因为 WebSocketSession 无法获得 ws 地址上的请求参数，所以只好通过该拦截器，获得 accessToken 请求参数，设置到 attributes 中
  */
 public class WebSocketShakeInterceptor extends HttpSessionHandshakeInterceptor {
@@ -25,7 +25,7 @@ public class WebSocketShakeInterceptor extends HttpSessionHandshakeInterceptor {
             String token = serverRequest.getServletRequest().getParameter("token");
             if (token != null) {
                 attributes.put("token", token);
-            }else{
+            } else {
                 // 如果没有 token，则拒绝握手
                 return false;
             }

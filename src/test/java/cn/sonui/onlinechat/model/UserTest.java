@@ -60,7 +60,7 @@ public class UserTest {
         res.setNickName("sonui2");
         int rw = userMapper.updateUser(res);
         Assert.assertEquals(1, rw);
-        res = userMapper.getUserInfo(uid);
+        res = userMapper.getUserInfoByKey(String.valueOf(uid));
         Assert.assertEquals("sonui2", res.getNickName());
     }
 
