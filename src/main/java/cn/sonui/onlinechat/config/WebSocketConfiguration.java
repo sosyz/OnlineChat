@@ -1,4 +1,4 @@
-package cn.sonui.onlinechat.websocket.config;
+package cn.sonui.onlinechat.config;
 
 import cn.sonui.onlinechat.websocket.WebSocketHandler;
 import cn.sonui.onlinechat.websocket.WebSocketShakeInterceptor;
@@ -8,15 +8,21 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+/**
+ * @author Sonui
+ */
 @Configuration
 @EnableWebSocket
 public class WebSocketConfiguration implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(this.webSocketHandler(), "/v1/ws/chat") // 配置处理器
-                .addInterceptors(new WebSocketShakeInterceptor()) // 配置拦截器
-                .setAllowedOrigins("*"); // 解决跨域问题
+                 // 配置处理器
+        registry.addHandler(this.webSocketHandler(), "/v1/ws/chat")
+                // 配置拦截器
+                .addInterceptors(new WebSocketShakeInterceptor())
+                // 解决跨域问题
+                .setAllowedOrigins("*");
     }
 
     @Bean
