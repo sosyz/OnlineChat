@@ -2,7 +2,7 @@ package cn.sonui.onlinechat.websocket;
 
 import cn.sonui.onlinechat.model.User;
 import cn.sonui.onlinechat.websocket.handler.MessageHandler;
-import cn.sonui.onlinechat.websocket.message.RequestMessage;
+import cn.sonui.onlinechat.message.WebSocketRequestMessageImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tairitsu.ignotus.cache.CacheService;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +18,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.HashMap;
 
+/**
+ * @author Sonui
+ */
 public class WebSocketHandler extends TextWebSocketHandler implements InitializingBean {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -33,7 +36,11 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
     @Autowired
     private ApplicationContext applicationContext;
 
-    @Override // 对应 open 事件
+    /**
+     * 对应连接事件
+     * @param session 连接
+     */
+    @Override
     public void afterConnectionEstablished(@NotNull WebSocketSession session) {
         logger.info("[WebSocket][afterConnectionEstablished][session({}) 接入]", session);
         String token = (String) session.getAttributes().get("token");
@@ -49,13 +56,19 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
         cache.get(token, User.class, null);
     }
 
-    @Override // 对应 message 事件
+    /**
+     * message 接收事件
+     * @param session 连接
+     * @param textMessage 消息
+     */
+    @Override
     public void handleTextMessage(@NotNull WebSocketSession session, @NotNull TextMessage textMessage) {
-        logger.info("[WebSocket][handleMessage][session({}) 接收到一条消息({})]", session, textMessage); // 生产环境下，请设置成 debug 级别
+        // 生产环境下，请设置成 debug 级别
+        logger.info("[WebSocket][handleMessage][session({}) 接收到一条消息({})]", session, textMessage);
         try {
             ObjectMapper mapper = new ObjectMapper();
 //            // 获得消息类型
-            var requestMessage = mapper.readValue(textMessage.getPayload(), RequestMessage.class);
+            var requestMessage = mapper.readValue(textMessage.getPayload(), WebSocketRequestMessageImpl.class);
             String messageType = requestMessage.getType();
             // 获得消息处理器
             var messageHandler = HANDLERS.get(messageType);
@@ -69,12 +82,22 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
         }
     }
 
-    @Override // 对应 close 事件
+    /**
+     * 连接关闭事件
+     * @param session 连接
+     * @param status 关闭状态
+     */
+    @Override
     public void afterConnectionClosed(@NotNull WebSocketSession session, @NotNull CloseStatus status) {
         logger.info("[WebSocket][afterConnectionClosed][session({}) 连接关闭。关闭原因是({})}]", session, status);
     }
 
-    @Override // 对应 error 事件
+    /**
+     * 连接错误
+     * @param session 连接
+     * @param exception 异常
+     */
+    @Override
     public void handleTransportError(@NotNull WebSocketSession session, @NotNull Throwable exception) {
         logger.info("[WebSocket][handleTransportError][session({}) 发生异常]", session, exception);
     }
@@ -82,8 +105,10 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
     @Override
     public void afterPropertiesSet() {
         // 通过 ApplicationContext 获得所有 MessageHandler Bean
-        applicationContext.getBeansOfType(MessageHandler.class).values() // 获得所有 MessageHandler Bean
-                .forEach(messageHandler -> HANDLERS.put(messageHandler.getType(), messageHandler)); // 添加到 handlers 中
+        // 获得所有 MessageHandler Bean
+        applicationContext.getBeansOfType(MessageHandler.class).values()
+                // 添加到 handlers 中
+                .forEach(messageHandler -> HANDLERS.put(messageHandler.getType(), messageHandler));
         logger.info("[afterPropertiesSet][消息处理器数量：{}]", HANDLERS.size());
     }
 }
