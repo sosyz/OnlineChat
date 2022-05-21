@@ -45,15 +45,27 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
         logger.info("[WebSocket][afterConnectionEstablished][session({}) 接入]", session);
         String token = (String) session.getAttributes().get("token");
         if (token == null) {
-            logger.error("[WebSocket][afterConnectionEstablished][token 为空]");
+            logger.info("[WebSocket][afterConnectionEstablished][token 为空]");
             try {
                 session.close();
             } catch (Exception e) {
-                logger.error("[WebSocket][afterConnectionEstablished][关闭连接失败, msg:{}]", e.getMessage());
+                logger.info("[WebSocket][afterConnectionEstablished][关闭连接失败, msg:{}]", e.getMessage());
             }
             return;
         }
-        cache.get(token, User.class, null);
+        User user = cache.get(token, User.class, null);
+        if (user == null) {
+            logger.info("[WebSocket][afterConnectionEstablished][token({}) 不存在]", token);
+            try {
+                session.close();
+            } catch (Exception e) {
+                logger.info("[WebSocket][afterConnectionEstablished][关闭连接失败, msg:{}]", e.getMessage());
+            }
+        }else{
+            logger.info("[WebSocket][afterConnectionEstablished][token({}) 存在, User:{}]", token, user);
+
+            session.getAttributes().put("userId", user.getUid());
+        }
     }
 
     /**
