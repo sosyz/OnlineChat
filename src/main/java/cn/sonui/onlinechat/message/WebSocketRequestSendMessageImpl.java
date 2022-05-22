@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author Sonui
  */
-public class WebSocketSendMessageRequestImpl implements WebSocketMessage {
+public class WebSocketRequestSendMessageImpl implements WebSocketMessage {
 
     public static final String TYPE = "SEND_MESSAGE";
     private String type;
@@ -14,11 +14,10 @@ public class WebSocketSendMessageRequestImpl implements WebSocketMessage {
      * 消息内容
      */
     @JsonProperty(value = "content")
-    private List<WebSocketSendMessageContentRequestImpl> content;
-    private Integer toObjectId;
-    private Integer fromObjectId;
-    private Integer msgType;
-
+    private List<WebSocketRequestSendMessageContentImpl> content;
+    private String receiver;
+    private Long sender;
+    private Short msgType;
     public String getType() {
         return type;
     }
@@ -27,42 +26,42 @@ public class WebSocketSendMessageRequestImpl implements WebSocketMessage {
         this.type = type;
     }
 
-    public Integer getToObjectId() {
-        return toObjectId;
+    public String getReceiver() {
+        return receiver;
     }
 
-    public void setToObjectId(Integer toObjectId) {
-        this.toObjectId = toObjectId;
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
-    public Integer getFromObjectId() {
-        return fromObjectId;
+    public Long getSender() {
+        return sender;
     }
 
-    public void setFromObjectId(Integer fromObjectId) {
-        this.fromObjectId = fromObjectId;
+    public void setSender(Long sender) {
+        this.sender = sender;
     }
 
-    public Integer getMsgType() {
+    public Short getMsgType() {
         return msgType;
     }
 
-    public void setMsgType(Integer type) {
+    public void setMsgType(Short type) {
         this.msgType = type;
     }
 
-    public List<WebSocketSendMessageContentRequestImpl> getContent() {
+    public List<WebSocketRequestSendMessageContentImpl> getContent() {
         return content;
     }
 
-    public void setContent(List<WebSocketSendMessageContentRequestImpl> content) {
+    public void setContent(List<WebSocketRequestSendMessageContentImpl> content) {
         this.content = content;
     }
 
     @Override
     public String toString() {
         StringBuilder ret = new StringBuilder();
-        for (WebSocketSendMessageContentRequestImpl messageContent : content) {
+        for (WebSocketRequestSendMessageContentImpl messageContent : content) {
             ret.append("{\"msgId\": ").append(messageContent.getMsgId()).append("\"type\":").append(messageContent.getType()).append("\"content\":\"").append(messageContent.getContent()).append("\"}");
         }
         return "SendMessage{" +
