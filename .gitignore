@@ -33,3 +33,6 @@ build/
 
 ### cache缓存文件 ###
 ignotus/
+
+log.md
+/src/main/resources/log4j.xml
