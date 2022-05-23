@@ -1,9 +1,10 @@
 package cn.sonui.onlinechat.websocket;
 
+import cn.sonui.onlinechat.mapper.GroupMembersMapper;
+import cn.sonui.onlinechat.message.WebSocketRequestMessageImpl;
 import cn.sonui.onlinechat.model.User;
 import cn.sonui.onlinechat.utils.SessionUtils;
 import cn.sonui.onlinechat.websocket.handler.MessageHandler;
-import cn.sonui.onlinechat.message.WebSocketRequestMessageImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tairitsu.ignotus.cache.CacheService;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.*;
+import java.util.HashMap;
 
 /**
  * @author Sonui
@@ -35,10 +36,13 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
     @Autowired
     CacheService cache;
     @Autowired
+    GroupMembersMapper groupMembersMapper;
+    @Autowired
     private ApplicationContext applicationContext;
 
     /**
      * 对应连接事件
+     *
      * @param session 连接
      */
     @Override
@@ -54,7 +58,7 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
             } catch (Exception e) {
                 logger.info("[WebSocket][afterConnectionEstablished][关闭连接失败, msg:{}]", e.getMessage());
             }
-        }else{
+        } else {
             logger.info("[WebSocket][afterConnectionEstablished][token({}) 存在, User:{}]", token, user);
             session.getAttributes().put("userId", user.getUid());
 
@@ -64,12 +68,16 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
             // session绑定用户
             SessionUtils.addSessionToUserId(session, user.getUid());
             SessionUtils.addClient(token, session);
+
+            // 群成员在线列表更新
+            groupMembersMapper.getUserInGroupList(user.getUid()).forEach(groupId -> SessionUtils.addOnlineMember(groupId, user.getUid()));
         }
     }
 
     /**
      * message 接收事件
-     * @param session 连接
+     *
+     * @param session     连接
      * @param textMessage 消息
      */
     @Override
@@ -95,8 +103,9 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
 
     /**
      * 连接关闭事件
+     *
      * @param session 连接
-     * @param status 关闭状态
+     * @param status  关闭状态
      */
     @Override
     public void afterConnectionClosed(@NotNull WebSocketSession session, @NotNull CloseStatus status) {
@@ -109,11 +118,14 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
         SessionUtils.removeClient(token);
         SessionUtils.removeOnlineClient(uid, session);
         SessionUtils.removeSessionToUserId(session);
+
+        groupMembersMapper.getUserInGroupList(uid).forEach(groupId -> SessionUtils.removeOnlineMember(groupId, uid));
     }
 
     /**
      * 连接错误
-     * @param session 连接
+     *
+     * @param session   连接
      * @param exception 异常
      */
     @Override
