@@ -1,6 +1,7 @@
 package cn.sonui.onlinechat.websocket;
 
 import cn.sonui.onlinechat.model.User;
+import cn.sonui.onlinechat.utils.SessionUtils;
 import cn.sonui.onlinechat.websocket.handler.MessageHandler;
 import cn.sonui.onlinechat.message.WebSocketRequestMessageImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +17,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * @author Sonui
@@ -44,17 +45,9 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
     public void afterConnectionEstablished(@NotNull WebSocketSession session) {
         logger.info("[WebSocket][afterConnectionEstablished][session({}) 接入]", session);
         String token = (String) session.getAttributes().get("token");
-        if (token == null) {
-            logger.info("[WebSocket][afterConnectionEstablished][token 为空]");
-            try {
-                session.close();
-            } catch (Exception e) {
-                logger.info("[WebSocket][afterConnectionEstablished][关闭连接失败, msg:{}]", e.getMessage());
-            }
-            return;
-        }
         User user = cache.get(token, User.class, null);
         if (user == null) {
+            // 不存在该token，拒绝连接
             logger.info("[WebSocket][afterConnectionEstablished][token({}) 不存在]", token);
             try {
                 session.close();
@@ -63,8 +56,14 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
             }
         }else{
             logger.info("[WebSocket][afterConnectionEstablished][token({}) 存在, User:{}]", token, user);
-
             session.getAttributes().put("userId", user.getUid());
+
+            SessionUtils.addOnlineClient(user.getUid(), session);
+            logger.info("[WebSocket][afterConnectionEstablished][token({}) 该用户当前在线客户端数量:{}]", token, SessionUtils.getOnlineClientSize(user.getUid()));
+
+            // session绑定用户
+            SessionUtils.addSessionToUserId(session, user.getUid());
+            SessionUtils.addClient(token, session);
         }
     }
 
@@ -101,7 +100,15 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
      */
     @Override
     public void afterConnectionClosed(@NotNull WebSocketSession session, @NotNull CloseStatus status) {
+        ObjectMapper mapper = new ObjectMapper();
         logger.info("[WebSocket][afterConnectionClosed][session({}) 连接关闭。关闭原因是({})}]", session, status);
+        // 清理
+        String token = (String) session.getAttributes().get("token");
+        Long uid = SessionUtils.getSessionToUserId(session);
+
+        SessionUtils.removeClient(token);
+        SessionUtils.removeOnlineClient(uid, session);
+        SessionUtils.removeSessionToUserId(session);
     }
 
     /**
