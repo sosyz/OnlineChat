@@ -7,6 +7,11 @@ import cn.sonui.onlinechat.service.GroupMembersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+/**
+ * @author Sonui
+ */
 @Service
 public class GroupMembersServiceImpl implements GroupMembersService {
     @Autowired
@@ -52,7 +57,7 @@ public class GroupMembersServiceImpl implements GroupMembersService {
     }
 
     @Override
-    public User[] queryGroupMember(String groupId, Long userId) {
+    public List<User> queryGroupMember(String groupId, Long userId) {
         return groupMembersMapper.getGroupMembers(groupId);
     }
 

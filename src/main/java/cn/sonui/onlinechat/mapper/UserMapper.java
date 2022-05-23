@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Sonui
+ */
 @Repository
 public interface UserMapper {
     /**
@@ -113,6 +116,8 @@ public interface UserMapper {
 
     /**
      * 获取用户列表
+     *
+     * @return 用户列表
      */
     @Select("SELECT " +
             "* " +

@@ -1,6 +1,7 @@
 package cn.sonui.onlinechat.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ public class WebSocketRequestSendMessageImpl implements WebSocketMessage {
     private String receiver;
     private Long sender;
     private Short msgType;
+
     public String getType() {
         return type;
     }

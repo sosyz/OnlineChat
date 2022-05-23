@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author Sonui
+ */
 @Repository
 public interface GroupMapper {
     /**
@@ -14,6 +17,7 @@ public interface GroupMapper {
      * @param groupId     群组id
      * @param groupName   群组名称
      * @param groupAvatar 群组头像
+     * @return 是否插入成功
      */
     @Insert("INSERT INTO `groups`" +
             "(`id`, `name`, `avatar`)" +

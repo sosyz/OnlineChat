@@ -10,13 +10,21 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 import java.util.Map;
 
 /**
- * 自定义 HttpSessionHandshakeInterceptor 拦截器
- * <p>
- * 因为 WebSocketSession 无法获得 ws 地址上的请求参数，所以只好通过该拦截器，获得 accessToken 请求参数，设置到 attributes 中
+ * @author Sonui
  */
 public class WebSocketShakeInterceptor extends HttpSessionHandshakeInterceptor {
 
-    @Override // 拦截 Handshake 事件
+    /**
+     * 拦截 Handshake 事件 添加token
+     *
+     * @param request    请求
+     * @param response   响应
+     * @param wsHandler  websocket处理器
+     * @param attributes 属性
+     * @return 是否拦截
+     * @throws Exception 异常
+     */
+    @Override
     public boolean beforeHandshake(@NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response,
                                    @NotNull WebSocketHandler wsHandler, @NotNull Map<String, Object> attributes) throws Exception {
         // 获得 token

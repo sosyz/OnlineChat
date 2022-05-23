@@ -17,7 +17,7 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-                 // 配置处理器
+        // 配置处理器
         registry.addHandler(this.webSocketHandler(), "/v1/ws/chat")
                 // 配置拦截器
                 .addInterceptors(new WebSocketShakeInterceptor())

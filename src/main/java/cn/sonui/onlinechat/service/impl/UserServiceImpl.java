@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import static com.alibaba.druid.util.Utils.md5;
 
+/**
+ * @author Sonui
+ */
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired

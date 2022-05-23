@@ -16,6 +16,7 @@ public interface MessageHandler {
 
     /**
      * 获取类型
+     *
      * @return 消息类型，即每个 Message 实现类上的 TYPE 静态字段
      */
     String getType();

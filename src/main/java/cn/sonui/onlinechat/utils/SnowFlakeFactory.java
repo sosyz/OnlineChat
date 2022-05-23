@@ -9,6 +9,8 @@ import java.util.concurrent.locks.LockSupport;
  * url: <a href="https://www.yht7.com/news/90121">雪花ID</a>
  * 雪花算法，解决时间回拨问题
  * 整合业务，需要根据业务编号生成id
+ *
+ * @author 佚名
  */
 public class SnowFlakeFactory {
 
@@ -18,12 +20,21 @@ public class SnowFlakeFactory {
      */
     private final static long START_STMP = 1577808000000L;
 
+
+    // 每一部分占用的位数
     /**
-     * 每一部分占用的位数
+     * 序列号占用的位数
      */
-    private final static long SEQUENCE_BIT = 12; //序列号占用的位数
-    private final static long MACHINE_BIT = 5;   //机器标识占用的位数
-    private final static long DATACENTER_BIT = 5;//数据中心占用的位数
+
+    private final static long SEQUENCE_BIT = 12;
+    /**
+     * 机器标识占用的位数
+     */
+    private final static long MACHINE_BIT = 5;
+    /**
+     * 数据中心占用的位数
+     */
+    private final static long DATACENTER_BIT = 5;
 
     /**
      * 每一部分的最大值
@@ -49,16 +60,26 @@ public class SnowFlakeFactory {
     /**
      * 保留machineId和lastTimestamp, 以及备用machineId和其对应的lastTimestamp
      */
-    private static Map<Long, Long> machineIdLastTimeMap = new ConcurrentHashMap<>();
-    //最大扩展字段
+    private static final Map<Long, Long> machineIdLastTimeMap = new ConcurrentHashMap<>();
+    /**
+     * 最大扩展字段
+     */
     private final long maxExtension = 2L;
-    //数据中心
-    private long datacenterId;
-    //机器标识
+    /**
+     * 数据中心
+     */
+    private final long datacenterId;
+    /**
+     * 机器标识
+     */
     private long machineId;
-    //序列号
+    /**
+     * 序列号
+     */
     private long sequence = 0L;
-    //上一次时间戳
+    /**
+     * 上一次时间戳
+     */
     private long lastStmp = -1L;
 
     /**
@@ -144,9 +165,12 @@ public class SnowFlakeFactory {
         lastStmp = currStmp;
 
         //如果时间戳回拨就让时间少移动一位
-        return (currStmp - START_STMP) << (TIMESTMP_LEFT - extension) //时间戳部分
-                | datacenterId << DATACENTER_LEFT                       //数据中心部分
-                | machineId << MACHINE_LEFT                             //机器标识部分
+        //时间戳部分
+        return (currStmp - START_STMP) << (TIMESTMP_LEFT - extension)
+                //数据中心部分
+                | datacenterId << DATACENTER_LEFT
+                //机器标识部分
+                | machineId << MACHINE_LEFT
                 | sequence;
     }
 

@@ -1,9 +1,7 @@
 package cn.sonui.onlinechat.model;
 
-import cn.sonui.onlinechat.utils.SnowFlakeFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 

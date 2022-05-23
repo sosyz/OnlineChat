@@ -2,6 +2,9 @@ package cn.sonui.onlinechat.service;
 
 import cn.sonui.onlinechat.model.Group;
 
+/**
+ * @author Sonui
+ */
 public interface GroupService {
     /**
      * 查询群组
@@ -32,6 +35,7 @@ public interface GroupService {
      * @param groupId     群组id
      * @param groupName   群组名称
      * @param groupAvatar 群组头像
+     * @return 是否插入成功
      */
     Integer create(String groupId, String groupName, String groupAvatar);
 

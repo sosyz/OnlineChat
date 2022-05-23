@@ -24,6 +24,7 @@ public class SendMessageConsumer {
     MessageHistoryMapper messageHistoryMapper;
     @Autowired
     private BroadcastMessageProducer broadcastMessageProducer;
+
     @RabbitHandler
     public void onMessage(String message) {
 

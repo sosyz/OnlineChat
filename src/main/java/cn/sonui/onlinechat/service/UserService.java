@@ -2,6 +2,9 @@ package cn.sonui.onlinechat.service;
 
 import cn.sonui.onlinechat.model.User;
 
+/**
+ * @author Sonui
+ */
 public interface UserService {
 
     /**
@@ -33,6 +36,7 @@ public interface UserService {
      * 用户注册
      *
      * @param user 用户信息
+     * @return 注册结果
      */
     Integer register(User user);
 }
