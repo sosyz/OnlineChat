@@ -1,15 +1,18 @@
 package cn.sonui.onlinechat.vo.impl;
 
-import cn.sonui.onlinechat.vo.VO;
+import cn.sonui.onlinechat.vo.Vo;
 
-public class UniversalVO implements VO {
+/**
+ * @author Sonui
+ */
+public class UniversalVo implements Vo {
     private Integer code;
     private String msg;
 
-    public UniversalVO() {
+    public UniversalVo() {
     }
 
-    public UniversalVO(Integer code, String msg) {
+    public UniversalVo(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
@@ -32,5 +35,13 @@ public class UniversalVO implements VO {
     @Override
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    @Override
+    public String toString() {
+        return "UniversalVO{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                '}';
     }
 }

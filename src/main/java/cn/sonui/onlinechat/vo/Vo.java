@@ -1,6 +1,9 @@
 package cn.sonui.onlinechat.vo;
 
-public interface VO {
+/**
+ * @author Sonui
+ */
+public interface Vo {
     /**
      * 获取错误码
      *
@@ -28,4 +31,6 @@ public interface VO {
      * @param message 响应信息
      */
     void setMsg(String message);
+
+
 }

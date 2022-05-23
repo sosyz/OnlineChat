@@ -7,13 +7,19 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+/**
+ * @author Sonui
+ */
 @Repository
 public interface GroupMembersMapper {
     /**
      * 新建群员关系
      *
-     * @param groupId 群id
-     * @param userId  用户id
+     * @param groupId   群id
+     * @param userId    用户id
+     * @param privilege 群员权限
      * @return 是否成功
      */
     @Insert("insert into group_members(group_id,user_id, pri, join_time) values(#{groupId},#{userId}, #{privilege}, NOW())")
@@ -67,7 +73,14 @@ public interface GroupMembersMapper {
      * @return 群成员列表
      */
     @Select("select a.user_id, b.* from group_members as a, users as b where a.group_id = #{groupId} and a.user_id = b.uid")
-    User[] getGroupMembers(String groupId);
+    List<User> getGroupMembers(String groupId);
 
-
+    /**
+     * 查询用户所在群
+     *
+     * @param userId 用户id
+     * @return 群id
+     */
+    @Select("select group_id from group_members where user_id = #{userId}")
+    List<String> getUserInGroupList(Long userId);
 }

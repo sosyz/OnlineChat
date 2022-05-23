@@ -1,32 +1,37 @@
 package cn.sonui.onlinechat.vo.impl.group;
 
 import cn.sonui.onlinechat.model.User;
-import cn.sonui.onlinechat.vo.VO;
+import cn.sonui.onlinechat.vo.Vo;
 
-public class GroupMembersListVO implements VO {
+import java.util.List;
+
+/**
+ * @author Sonui
+ */
+public class GroupMembersListVo implements Vo {
     private Integer code;
     private String msg;
-    private User[] memberList;
+    private List<User> memberList;
 
-    public GroupMembersListVO(Integer code, String msg, User[] memberList) {
+    public GroupMembersListVo(Integer code, String msg, List<User> memberList) {
         this.code = code;
         this.msg = msg;
         this.memberList = memberList;
     }
 
-    public GroupMembersListVO() {
+    public GroupMembersListVo() {
     }
 
-    public GroupMembersListVO(Integer code, String msg) {
+    public GroupMembersListVo(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public User[] getMemberList() {
+    public List<User> getMemberList() {
         return memberList;
     }
 
-    public void setMemberList(User[] memberList) {
+    public void setMemberList(List<User> memberList) {
         this.memberList = memberList;
     }
 
@@ -48,5 +53,15 @@ public class GroupMembersListVO implements VO {
     @Override
     public void setMsg(String message) {
         this.msg = message;
+    }
+
+
+    @Override
+    public String toString() {
+        return "GroupMembersListVO{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", memberList=" + memberList +
+                '}';
     }
 }

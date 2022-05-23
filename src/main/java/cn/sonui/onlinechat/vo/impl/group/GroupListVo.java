@@ -1,18 +1,20 @@
 package cn.sonui.onlinechat.vo.impl.group;
 
 import cn.sonui.onlinechat.model.Group;
-import cn.sonui.onlinechat.vo.VO;
+import cn.sonui.onlinechat.vo.Vo;
 
-public class GroupListVO implements VO {
+import java.util.Arrays;
+
+public class GroupListVo implements Vo {
     private Integer code = 0;
     private String msg;
 
     private Group[] groups;
 
-    public GroupListVO() {
+    public GroupListVo() {
     }
 
-    public GroupListVO(Integer code, String msg, Group[] groups) {
+    public GroupListVo(Integer code, String msg, Group[] groups) {
         this.code = code;
         this.msg = msg;
         this.groups = groups;
@@ -44,5 +46,14 @@ public class GroupListVO implements VO {
     @Override
     public void setMsg(String message) {
         this.msg = message;
+    }
+
+    @Override
+    public String toString() {
+        return "GroupListVO{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", groups=" + Arrays.toString(groups) +
+                '}';
     }
 }

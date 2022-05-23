@@ -1,12 +1,15 @@
 package cn.sonui.onlinechat.vo.impl.user;
 
-import cn.sonui.onlinechat.vo.VO;
+import cn.sonui.onlinechat.vo.Vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
 
+/**
+ * @author Sonui
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserInfoVO implements VO {
+public class UserInfoVo implements Vo {
     private Integer code = 0;
 
     private String msg = "";
@@ -21,15 +24,15 @@ public class UserInfoVO implements VO {
     private String lastLoginIp;
     private Long privateId;
 
-    public UserInfoVO() {
+    public UserInfoVo() {
     }
 
-    public UserInfoVO(Integer code, String msg) {
+    public UserInfoVo(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public UserInfoVO(Integer code, String msg, String name, String avatar, String nickname, short grade, String email, String readme, Date registerTime, Date lastLoginTime, String lastLoginIp, long privateId) {
+    public UserInfoVo(Integer code, String msg, String name, String avatar, String nickname, short grade, String email, String readme, Date registerTime, Date lastLoginTime, String lastLoginIp, long privateId) {
         this.code = code;
         this.msg = msg;
         this.name = name;
@@ -142,5 +145,23 @@ public class UserInfoVO implements VO {
     @Override
     public void setMsg(String message) {
         this.msg = message;
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfoVO{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", name='" + name + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", grade=" + grade +
+                ", email='" + email + '\'' +
+                ", readme='" + readme + '\'' +
+                ", registerTime=" + registerTime +
+                ", lastLoginTime=" + lastLoginTime +
+                ", lastLoginIp='" + lastLoginIp + '\'' +
+                ", privateId=" + privateId +
+                '}';
     }
 }

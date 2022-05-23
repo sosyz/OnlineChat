@@ -1,26 +1,26 @@
 package cn.sonui.onlinechat.vo.impl.user;
 
-import cn.sonui.onlinechat.vo.VO;
+import cn.sonui.onlinechat.vo.Vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LoginVO implements VO {
+public class LoginVo implements Vo {
     private Integer code;
     private String msg;
     private String token;
 
-    public LoginVO(Integer code, String msg, String token) {
+    public LoginVo(Integer code, String msg, String token) {
         this.code = code;
         this.msg = msg;
         this.token = token;
     }
 
-    public LoginVO(Integer code, String msg) {
+    public LoginVo(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public LoginVO() {
+    public LoginVo() {
     }
 
     public String getToken() {
