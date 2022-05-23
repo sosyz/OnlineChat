@@ -2,6 +2,11 @@ package cn.sonui.onlinechat.service;
 
 import cn.sonui.onlinechat.model.User;
 
+import java.util.List;
+
+/**
+ * @author Sonui
+ */
 public interface GroupMembersService {
     /**
      * 添加群成员
@@ -30,7 +35,7 @@ public interface GroupMembersService {
      * @param userId  用户id
      * @return 群成员
      */
-    User[] queryGroupMember(String groupId, Long userId);
+    List<User> queryGroupMember(String groupId, Long userId);
 
     /**
      * 查询群成员权限
