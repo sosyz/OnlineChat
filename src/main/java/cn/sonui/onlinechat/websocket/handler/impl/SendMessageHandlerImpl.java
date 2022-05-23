@@ -19,6 +19,7 @@ public class SendMessageHandlerImpl implements MessageHandler {
 
     @Autowired
     private SendMessageProducer sendMessageProducer;
+
     @Override
     public void execute(WebSocketSession session, String message) {
         ObjectMapper mapper = new ObjectMapper();
