@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <meta charset="UTF-8">
+    <title>在线聊天室</title>
+    <script src="./js/api.js"></script>
+    <script src="./js/vue@3.js"></script>
+<!--    <script src="./js/vue@3.js"></script>-->
+    <link href="./css/litewebchat.min.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/chat.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body >
+<div id="box">
+    <div class="chatList">
+        <div class="chatList-item" v-for="item in chatList">
+            <img :src="item.avatar" style="margin: 0 auto; border-radius: 5px; width: 3em; height: 3em;" alt="头像">
+            <div style="display: flex; flex-direction: column; margin-left: 5px;">
+                <p class="chatList-title">{{item.name}}</p>
+                <p class="chatList-content" v-text="getLastMessage(item.id)"></p>
+            </div>
+        </div>
+    </div>
+    <div id="msgConsole" style="width: 100%">
+        <div id="msgView">
+            <!-- 主容器 -->
+            <div class="lite-chatbox">
+                <div v-for="item in msgList[nowGroup]">
+                    <div v-if="item.sender === 10000" class="tips">
+                        <p class="tips-content">{{item.content}}</p>
+                    </div>
+                    <div v-if="item.sender !== 10000" :class="(item.sender == myselfInfo.uid ? 'cright' : 'cleft') + ' cmsg'">
+                        <img class="headIcon radius" oncontextmenu="return false;" ondragstart="return false;"
+                             :src="getUserInfoFromLocal(item.sender).avatar" alt="头像"/>
+                        <span class="name" v-text="getUserInfoFromLocal(item.sender).name"></span>
+                        <span class="content" v-text="arrayContentToString(item.content)"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="msgSend">
+            <label for="sendMsgContent"></label><textarea id="sendMsgContent" maxlength="2400" style="resize: none;" v-model="sendMsgContent"></textarea>
+            <a id="btn-sendMsg" @click="sendMsg(sendMsgContent)">发送</a>
+        </div>
+    </div>
+</div>
+<script src="./js/chat.js"></script>
+</body>
+
+</html>
