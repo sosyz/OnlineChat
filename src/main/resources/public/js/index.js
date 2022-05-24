@@ -1,30 +1,27 @@
-function urlEncode(data) {
-    let ret = "";
-    for (let key in data)
-        ret += "&" + key + "=" + encodeURIComponent(data[key])
-    return ret.substring(1);
-}
-
-var card = new Vue({
-    el: "#loginCard",
-    data: {
-        login: {
-            username: '',
-            password: '',
-            usernameTip: false,
-            passwordTip: false
-        },
-        register: {
-            username: '',
-            password: '',
-            password2: '',
-            usernameTip: false,
-            passwordTip: false,
-            password2Tip: false
-        },
-        registerPage: false,
+Vue.createApp({
+    data() {
+        return {
+            login: {
+                username: '',
+                password: '',
+                usernameTip: false,
+                passwordTip: false
+            },
+            register: {
+                nickname: '',
+                username: '',
+                password: '',
+                password2: '',
+                nicknameTip: false,
+                usernameTip: false,
+                passwordTip: false,
+                password2Tip: false
+            },
+            registerPage: false
+        }
     },
     methods: {
+
         registerFunc: function (user, pwd) {
             if (user !== '' && pwd) {
 
@@ -53,8 +50,8 @@ var card = new Vue({
                         console.log(data);
                         if (data.code === 0) {
                             localStorage.setItem('token', data.token);
-                            window.location.href = './rooms.html'
-                        }else{
+                            window.location.href = '/chat.html'
+                        } else {
                             alert(data.msg);
                         }
                     });
@@ -63,5 +60,6 @@ var card = new Vue({
                 })
             }
         }
+
     }
-})
+}).mount('#loginCard')
