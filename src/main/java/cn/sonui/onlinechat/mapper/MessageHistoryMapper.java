@@ -26,7 +26,7 @@ public interface MessageHistoryMapper {
             "(#{sender}, #{receiver}, #{type}, #{content}, NOW(), #{status})")
     @Result(column = "create_time", property = "createTime", javaType = Date.class)
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    int insertMessage(MessageHistory message);
+    Long insertMessage(MessageHistory message);
 
     /**
      * 查询消息

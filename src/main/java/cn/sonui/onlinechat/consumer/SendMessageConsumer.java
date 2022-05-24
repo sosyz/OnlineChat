@@ -38,7 +38,7 @@ public class SendMessageConsumer {
             msg.setContent(mapper.writeValueAsString(webSocketRequestSendMessageImpl.getContent()));
             msg.setType(webSocketRequestSendMessageImpl.getMsgType());
             msg.setStatus(1);
-            messageHistoryMapper.insertMessage(msg);
+            webSocketRequestSendMessageImpl.setMsgId(messageHistoryMapper.insertMessage(msg));
             broadcastMessageProducer.sendMsg(mapper.writeValueAsString(webSocketRequestSendMessageImpl));
         } catch (Exception e) {
             e.printStackTrace();

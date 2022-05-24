@@ -3,6 +3,7 @@ package cn.sonui.onlinechat.consumer;
 import cn.sonui.onlinechat.mapper.MessageHistoryMapper;
 import cn.sonui.onlinechat.message.RabbitMqBroadcastMessage;
 import cn.sonui.onlinechat.message.WebSocketRequestSendMessageImpl;
+import cn.sonui.onlinechat.message.WebSocketResponseBroadcastMessageImpl;
 import cn.sonui.onlinechat.producer.BroadcastMessageProducer;
 import cn.sonui.onlinechat.utils.SessionUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +35,11 @@ public class BroadcastMessageConsumer {
         ObjectMapper mapper = new ObjectMapper();
         try {
             WebSocketRequestSendMessageImpl msg = mapper.readValue(message, WebSocketRequestSendMessageImpl.class);
+            WebSocketResponseBroadcastMessageImpl sendMsg = new WebSocketResponseBroadcastMessageImpl();
+            sendMsg.setContent(msg.getContent());
+            sendMsg.setSender(msg.getSender());
+            sendMsg.setGroupId(msg.getReceiver());
+            sendMsg.setMsgId(msg.getMsgId());
             if (msg.getMsgType() == 2) {
                 // 群消息
                 List<Long> onlineMembers = SessionUtils.getOnlineMembers(msg.getReceiver());
@@ -44,7 +50,7 @@ public class BroadcastMessageConsumer {
                 for (Long member : onlineMembers) {
                     SessionUtils.getOnlineClients(member).forEach(session -> {
                         try {
-                            session.sendMessage(new TextMessage(message));
+                            session.sendMessage(new TextMessage(sendMsg.toString()));
                         } catch (Exception e) {
                             logger.info("[onMessage][线程编号:{} 发送消息失败，msg:{}]", Thread.currentThread().getId(), e.getMessage());
                         }

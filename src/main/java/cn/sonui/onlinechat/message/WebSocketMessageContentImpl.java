@@ -3,7 +3,7 @@ package cn.sonui.onlinechat.message;
 /**
  * @author Sonui
  */
-public class WebSocketRequestSendMessageContentImpl implements WebSocketMessage {
+public class WebSocketMessageContentImpl implements WebSocketMessage {
     private Integer msgId;
     private Integer type;
     private String content;

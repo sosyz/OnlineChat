@@ -15,11 +15,11 @@ public class WebSocketRequestSendMessageImpl implements WebSocketMessage {
      * 消息内容
      */
     @JsonProperty(value = "content")
-    private List<WebSocketRequestSendMessageContentImpl> content;
+    private List<WebSocketMessageContentImpl> content;
     private String receiver;
     private Long sender;
     private Short msgType;
-
+    private Long msgId;
     public String getType() {
         return type;
     }
@@ -52,18 +52,26 @@ public class WebSocketRequestSendMessageImpl implements WebSocketMessage {
         this.msgType = type;
     }
 
-    public List<WebSocketRequestSendMessageContentImpl> getContent() {
+    public List<WebSocketMessageContentImpl> getContent() {
         return content;
     }
 
-    public void setContent(List<WebSocketRequestSendMessageContentImpl> content) {
+    public void setContent(List<WebSocketMessageContentImpl> content) {
         this.content = content;
+    }
+
+    public void setMsgId(Long msgId) {
+        this.msgId = msgId;
+    }
+
+    public Long getMsgId() {
+        return msgId;
     }
 
     @Override
     public String toString() {
         StringBuilder ret = new StringBuilder();
-        for (WebSocketRequestSendMessageContentImpl messageContent : content) {
+        for (WebSocketMessageContentImpl messageContent : content) {
             ret.append("{\"msgId\": ").append(messageContent.getMsgId()).append("\"type\":").append(messageContent.getType()).append("\"content\":\"").append(messageContent.getContent()).append("\"}");
         }
         return "SendMessage{" +
