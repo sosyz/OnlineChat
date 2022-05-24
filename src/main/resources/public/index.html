@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset='utf-8' http-equiv='X-UA-Compatible'/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title>在线聊天室</title>
+    <script src="./js/vue@3.js"></script>
+    <link href="./css/index.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="loginCard">
+    <div id="loginInfo" v-show="!registerPage">
+        <div class="card-head">
+            <a class="title">登录</a>
+        </div>
+        <form>
+            <label>
+                <input @blur="login.usernameTip = login.username == ''" placeholder="用户名/邮箱" type="text"
+                       v-model="login.username">
+            </label>
+            <a style="width: 100%; color: red;" v-show="login.usernameTip">用户名为必填项</a>
+            <label>
+                <input @blur="login.passwordTip = login.password == ''" placeholder="密码" type="password"
+                       v-model="login.password">
+            </label>
+            <a style="width: 100%; color: red;" v-show="login.passwordTip">密码必填项</a>
+            <span style="width: 100%; text-align: right; margin: 10px 2px 10px;">没有账号? <a @click="registerPage=true"
+                                                                                          href="javascript:void(0)"
+                                                                                          style="color: #0d00bd;text-align: right;text-decoration: none;">点此注册</a></span>
+            <input @click="loginFunc(login.username, login.password)" class="btn" type="submit" value="登录">
+        </form>
+    </div>
+    <div id="register" v-show="registerPage">
+        <div class="card-head">
+            <a class="title">注册</a>
+        </div>
+        <form>
+            <label>
+                <input @blur="register.usernameTip = register.username==''" placeholder="用户名/邮箱" type="text"
+                       v-model="register.username">
+            </label>
+            <a style="width: 100%; color: red;" v-show="register.usernameTip">用户名为必填项</a>
+            <label>
+                <input @blur="register.passwordTip = register.password==''" placeholder="密码" type="password"
+                       v-model="register.password">
+            </label>
+            <a style="width: 100%; color: red;" v-show="register.passwordTip">密码为必填项</a>
+            <label>
+                <input @blur="register.password2Tip = register.password2!=register.password" @keyup="register.password2Tip = register.password != register.password2"
+                       placeholder="重复密码"
+                       type="password" v-model="register.password2">
+            </label>
+            <a style="width: 100%; color: red;" v-show="register.password2Tip">密码不一致</a>
+            <input @click="registerFunc" class="btn" type="submit" value="注册并登录">
+            <a @click="registerPage=false" class="registerShow" href="javascript:void(0)"
+               style="margin-top: 48px;">返回</a>
+        </form>
+    </div>
+</div>
+<script src="./js/index.js"></script>
+</body>
+
+</html>

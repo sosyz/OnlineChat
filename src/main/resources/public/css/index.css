@@ -1,0 +1,77 @@
+@font-face {
+    font-family: HarmonyOS_Medium;
+    src: url("../fonts/HarmonyOS_Sans_Medium.ttf");
+}
+
+@font-face {
+    font-family: Emoji;
+    src: local("Apple Color Emojiji"), local("Segoe UI Emoji"), local("Segoe UI Symbol"), local("Noto Color Emoji");
+    unicode-range: U+1F000-1F644, U+203C-3299;
+}
+
+body {
+    font-family: HarmonyOS_Medium, system-ui, —apple-system, Segoe UI, Rototo, Emoji, Helvetica, Arial, sans-serif;
+}
+
+#loginCard {
+    display: flex;
+    width: 800px;
+    height: 462px;
+    margin: 30vh auto;
+    border-radius: 5px;
+    background-image: url(../img/background.jfif);
+    flex-direction: row-reverse;
+    box-shadow: 8px 8px 32px #888888;
+}
+
+.card-head {
+    width: 100%;
+    padding: 45px 10px 45px 10px;
+    
+}
+
+#loginInfo,
+#register {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    background-color: #FFFFFF;
+    padding: 10px 20px 10px 30px;
+    align-items: center;
+}
+
+.title {
+    font-size: 26px;
+}
+
+input {
+    font-size: 18px;
+    margin: 5px 10px 5px 10px;
+    padding: 8px 26px;
+    width: 84%;
+}
+
+.btn {
+    margin: 5px 10px 5px 10px;
+    width: 84%;
+    border-radius: 4px;
+    box-sizing: inherit;
+    font: inherit;
+    -webkit-appearance: button;
+    cursor: pointer;
+    min-height: 1em;
+    outline: none;
+    border: none;
+    text-transform: none;
+    font-style: normal;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    text-shadow: none;
+    box-shadow: 0 0 0 0 rgba(39, 41, 43, 0.15) inset;
+    color: #fff;
+    background: #fe7300;
+    line-height: 22px;
+    padding: 8px 26px;
+    font-weight: 500;
+}
