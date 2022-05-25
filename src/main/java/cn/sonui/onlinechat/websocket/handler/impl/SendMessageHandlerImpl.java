@@ -29,7 +29,7 @@ public class SendMessageHandlerImpl implements MessageHandler {
             sendMessage.setSender((Long) session.getAttributes().get("userId"));
             sendMessageProducer.sendMsg(mapper.writeValueAsString(sendMessage));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warn("[WebSocket][SendMessageHandlerImpl][消息处理失败, msg:{}]", e.getMessage());
         }
 
     }
