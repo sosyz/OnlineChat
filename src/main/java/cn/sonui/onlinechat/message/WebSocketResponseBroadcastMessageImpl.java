@@ -1,5 +1,7 @@
 package cn.sonui.onlinechat.message;
 
+import cn.sonui.onlinechat.model.User;
+
 import java.util.List;
 
 /**
@@ -8,15 +10,15 @@ import java.util.List;
 public class WebSocketResponseBroadcastMessageImpl implements WebSocketMessage {
 
     private String groupId;
-    private Long sender;
+    private User sender;
     private Long msgId;
     private List<WebSocketMessageContentImpl> content;
 
-    public void setSender(Long sender) {
+    public void setSender(User sender) {
         this.sender = sender;
     }
 
-    public Long getSender() {
+    public User getSender() {
         return sender;
     }
 
