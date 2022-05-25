@@ -23,6 +23,15 @@ public class UserInfoVo implements Vo {
     private Date lastLoginTime;
     private String lastLoginIp;
     private Long privateId;
+    private Long uid;
+
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUserId(Long uid) {
+        this.uid = uid;
+    }
 
     public UserInfoVo() {
     }
@@ -32,7 +41,8 @@ public class UserInfoVo implements Vo {
         this.msg = msg;
     }
 
-    public UserInfoVo(Integer code, String msg, String name, String avatar, String nickname, short grade, String email, String readme, Date registerTime, Date lastLoginTime, String lastLoginIp, long privateId) {
+    public UserInfoVo(Integer code, Long uid, String msg, String name, String avatar, String nickname, short grade, String email, String readme, Date registerTime, Date lastLoginTime, String lastLoginIp, long privateId) {
+        this.uid = uid;
         this.code = code;
         this.msg = msg;
         this.name = name;

@@ -28,9 +28,10 @@ public interface UserService {
      * 用户公开信息
      *
      * @param key 用户名/邮箱
+     * @param uid 用户id
      * @return 用户信息
      */
-    User info(String key);
+    User info(String key, Long uid);
 
     /**
      * 用户注册

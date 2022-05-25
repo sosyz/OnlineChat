@@ -1,5 +1,8 @@
 package cn.sonui.onlinechat.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Date;
 
 public class User {
@@ -162,20 +165,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "uid=" + uid +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", email='" + email + '\'' +
-                ", salt='" + salt + '\'' +
-                ", grade=" + grade +
-                ", readme='" + readme + '\'' +
-                ", registerTime='" + registerTime + '\'' +
-                ", lastLoginTime='" + lastLoginTime + '\'' +
-                ", lastLoginIp='" + lastLoginIp + '\'' +
-                ", privateId=" + privateId +
-                '}';
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

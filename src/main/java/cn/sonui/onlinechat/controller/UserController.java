@@ -55,9 +55,9 @@ public class UserController {
         } else {
             Cookie cookie = new Cookie("token", token);
             //Https 安全cookie
-            cookie.setSecure(true);
+            // cookie.setSecure(true);
             responseBody.addCookie(cookie);
-            cache.put(token, userService.info(username));
+            cache.put(token, userService.info(username, null));
             ret = new LoginVo(0, "登录成功", token);
         }
         return ret;
@@ -75,7 +75,7 @@ public class UserController {
         if (user == null) {
             ret = new UserInfoVo(2, "用户不存在");
         } else {
-            ret = new UserInfoVo(0, "获取成功", user.getUserName(), user.getAvatar(), user.getNickName(), user.getGrade(), user.getEmail(), user.getReadme(),
+            ret = new UserInfoVo(0, user.getUid(), "获取成功", user.getUserName(), user.getAvatar(), user.getNickName(), user.getGrade(), user.getEmail(), user.getReadme(),
                     user.getRegisterTime(), user.getLastLoginTime(), user.getLastLoginIp(), user.getPrivateId());
         }
         return ret;
@@ -83,14 +83,16 @@ public class UserController {
 
     @GetMapping("/info")
     public UserInfoVo userInfo(
-            @RequestParam("key") String key
+            @RequestParam(value = "key", required = false) String key,
+            @RequestParam(value = "uid", required = false) Long uid
     ) {
         UserInfoVo ret;
-        User user = userService.info(key);
+        User user = userService.info(key, uid);
         if (user == null) {
             ret = new UserInfoVo(2, "用户不存在");
         } else {
             ret = new UserInfoVo(0, "获取成功");
+            ret.setUserId(user.getUid());
             ret.setNickname(user.getNickName());
             ret.setAvatar(user.getAvatar());
             ret.setGrade(user.getGrade());

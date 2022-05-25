@@ -47,8 +47,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User info(String key) {
-        return userMapper.getUserInfoByKey(key);
+    public User info(String key, Long uid) {
+        return uid != null ? userMapper.getUserInfoByUid(uid) : userMapper.getUserInfoByKey(key);
     }
 
     @Override
