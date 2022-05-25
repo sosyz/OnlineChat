@@ -15,6 +15,8 @@ const apiUrl = {
     user: {
         login: '/v1/api/user/login',
         register: '/v1/api/user/register',
+        getUserInfo: '/v1/api/user/info',
+        myself: '/v1/api/user/self'
     }
 }
 const onlineChat = {
@@ -127,6 +129,33 @@ const onlineChat = {
                         password: password
                     }),
                     credentials: "same-origin"
+                }
+            )
+        },
+        getUserInfoByUid: uid => {
+            return fetch(
+                apiUrl.user.getUserInfo + "?uid=" + uid,
+                {
+                    method: "GET",
+                    credentials: "same-origin"
+                }
+            )
+        },
+        getUserInfoByKey: key => {
+            return fetch(
+                apiUrl.user.getUserInfo + "?key=" + key,
+                {
+                    method: "GET",
+                    credentials: "same-origin"
+                }
+            )
+        },
+        myself: ()=>{
+            return fetch(
+                apiUrl.user.myself,
+                {
+                    method: "GET",
+                    credentials: "same-origin",
                 }
             )
         }
