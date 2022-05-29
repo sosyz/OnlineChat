@@ -17,6 +17,7 @@
 | Swagger-UI | 2.0.2.RELEASE | 文档生产工具 |
 | redis      | 2.6.7         | 缓存     |
 | RabbitMQ   | 2.6.7         | 消息队列   |
+| minio   | 8.4.1         | 存储桶   |
 
 ## 提交规范
 
