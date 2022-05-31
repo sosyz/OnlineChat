@@ -47,6 +47,7 @@ body {
 }
 
 .chatList-console {
+    cursor: default; 
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -114,7 +115,6 @@ body {
 #btn-sendMsg {
     width: 5em;
     --bs-info: #0dcaf0;
-    font-family: var(--bs-body-font-family);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
     box-sizing: border-box;
@@ -133,6 +133,5 @@ body {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     color: #000;
     background-color: #0dcaf0;
-    border-color: #0dcaf0;
     cursor: pointer;
 }
