@@ -2,7 +2,7 @@ const box = Vue.createApp({
     data() {
         return {
             document: {
-                dropdownView: 'none',
+                dropdownView: false,
             },
             selected:'',
             selecttext:'选择优惠券',
