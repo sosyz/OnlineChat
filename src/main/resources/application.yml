@@ -3,19 +3,19 @@ spring:
     multipart:
       max-file-size: 30MB
   datasource:
-    url: jdbc:mysql://[::1]:3306/OnlineChat?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://192.168.3.202:3306/OnlineChat?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: root
     password: 123456
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
   rabbitmq:
-    host: '[::1]' # RabbitMQ 服务的地址
+    host: 192.168.3.202 # RabbitMQ 服务的地址
     port: 5672
     username: chat
     password: 123456
   redis:
-    host: '[::1]'
+    host: 192.168.3.202
     port: 6379
     password: # Redis 服务器密码，默认为空。生产中，一定要设置 Redis 密码！
     database: 0 # Redis 数据库号，默认为 0 。
@@ -31,7 +31,11 @@ config:
 springfox:
   documentation:
     enabled: true
-
+minio:
+  endpoint: http://192.168.3.202:9000
+  accessKey: admin
+  secretKey: password
+  bucketName: onlinechat
 # 雪花算法配置数据中心和机器编号，不同机器组合不能重复
 snowflake:
   datacenterId: 1
