@@ -12,6 +12,7 @@ import java.util.List;
 public interface FilesMapper {
     /**
      * 删除文件记录
+     *
      * @param id 文件id
      * @return 删除结果
      */
@@ -20,6 +21,7 @@ public interface FilesMapper {
 
     /**
      * 删除文件记录
+     *
      * @param path 文件名
      * @return 删除结果
      */
@@ -28,6 +30,7 @@ public interface FilesMapper {
 
     /**
      * 插入文件记录
+     *
      * @param record 文件记录
      * @return 插入结果
      */
@@ -36,6 +39,7 @@ public interface FilesMapper {
 
     /**
      * 根据id查询文件记录
+     *
      * @param id 文件id
      * @return 文件记录
      */
@@ -44,6 +48,7 @@ public interface FilesMapper {
 
     /**
      * 根据文件名查询文件信息
+     *
      * @param path 文件名
      * @return 文件信息
      */
@@ -52,6 +57,7 @@ public interface FilesMapper {
 
     /**
      * 查询用户上传的所有文件
+     *
      * @param uid 用户id
      * @return 文件列表
      */

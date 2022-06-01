@@ -25,14 +25,6 @@ public class UserInfoVo implements Vo {
     private Long privateId;
     private Long uid;
 
-    public Long getUid() {
-        return uid;
-    }
-
-    public void setUserId(Long uid) {
-        this.uid = uid;
-    }
-
     public UserInfoVo() {
     }
 
@@ -55,6 +47,14 @@ public class UserInfoVo implements Vo {
         this.lastLoginTime = lastLoginTime;
         this.lastLoginIp = lastLoginIp;
         this.privateId = privateId;
+    }
+
+    public Long getUid() {
+        return uid;
+    }
+
+    public void setUserId(Long uid) {
+        this.uid = uid;
     }
 
     public String getName() {

@@ -20,6 +20,7 @@ public class WebSocketRequestSendMessageImpl implements WebSocketMessage {
     private Long sender;
     private Short msgType;
     private Long msgId;
+
     public String getType() {
         return type;
     }
@@ -60,12 +61,12 @@ public class WebSocketRequestSendMessageImpl implements WebSocketMessage {
         this.content = content;
     }
 
-    public void setMsgId(Long msgId) {
-        this.msgId = msgId;
-    }
-
     public Long getMsgId() {
         return msgId;
+    }
+
+    public void setMsgId(Long msgId) {
+        this.msgId = msgId;
     }
 
     @Override

@@ -14,12 +14,12 @@ public class WebSocketResponseBroadcastMessageImpl implements WebSocketMessage {
     private Long msgId;
     private List<WebSocketMessageContentImpl> content;
 
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
-
     public User getSender() {
         return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
     public List<WebSocketMessageContentImpl> getContent() {

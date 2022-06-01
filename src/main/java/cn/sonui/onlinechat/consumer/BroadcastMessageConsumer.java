@@ -1,12 +1,10 @@
 package cn.sonui.onlinechat.consumer;
 
-import cn.sonui.onlinechat.mapper.MessageHistoryMapper;
 import cn.sonui.onlinechat.mapper.UserMapper;
 import cn.sonui.onlinechat.message.RabbitMqBroadcastMessage;
 import cn.sonui.onlinechat.message.WebSocketRequestSendMessageImpl;
 import cn.sonui.onlinechat.message.WebSocketResponseBroadcastMessageImpl;
 import cn.sonui.onlinechat.model.User;
-import cn.sonui.onlinechat.producer.BroadcastMessageProducer;
 import cn.sonui.onlinechat.utils.SessionUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tairitsu.ignotus.cache.CacheService;
@@ -33,6 +31,7 @@ public class BroadcastMessageConsumer {
 
     @Autowired
     UserMapper userMapper;
+
     @RabbitHandler
     public void onMessage(String message) {
         logger.info("[onMessage][线程编号:{} 消息内容：{}]", Thread.currentThread().getId(), message);

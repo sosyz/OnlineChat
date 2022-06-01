@@ -14,14 +14,6 @@ public class FileVo implements Vo {
     private String fid;
     private FileModel data;
 
-    public FileModel getData() {
-        return data;
-    }
-
-    public void setData(FileModel data) {
-        this.data = data;
-    }
-
     public FileVo() {
     }
 
@@ -29,6 +21,14 @@ public class FileVo implements Vo {
         this.code = code;
         this.msg = msg;
         this.fid = fid;
+    }
+
+    public FileModel getData() {
+        return data;
+    }
+
+    public void setData(FileModel data) {
+        this.data = data;
     }
 
     @Override

@@ -12,11 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/v1/api/file")
-public class FileController{
+public class FileController {
     @Autowired
     private FileServices fileServices;
     @Autowired
     private CacheService cache;
+
     /**
      * 上传文件
      */
@@ -37,12 +38,12 @@ public class FileController{
         if (type <= 0 || type > 2) {
             ret.setCode(1);
             ret.setMsg("type error");
-        }else{
+        } else {
             FileModel res = fileServices.upload(file, type, user.getUid());
             if (res == null) {
                 ret.setCode(2);
                 ret.setMsg("上传失败");
-            }else{
+            } else {
                 ret.setCode(0);
                 ret.setMsg("上传成功");
                 ret.setFid(res.getId());
@@ -69,16 +70,16 @@ public class FileController{
         if (info == null) {
             ret.setCode(1);
             ret.setMsg("file not found");
-        }else{
+        } else {
             if (info.getAuthor() != user.getUid()) {
                 ret.setCode(1);
                 ret.setMsg("非上传者无法删除");
-            }else{
+            } else {
                 Boolean res = fileServices.delete(id);
                 if (res) {
                     ret.setCode(2);
                     ret.setMsg("删除失败");
-                }else{
+                } else {
                     ret.setCode(0);
                     ret.setMsg("删除成功");
                 }

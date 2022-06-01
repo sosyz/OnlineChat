@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FileServices {
     /**
      * 上传文件
+     *
      * @param file 文件
      * @return 上传结果
      */
@@ -22,13 +23,15 @@ public interface FileServices {
 
     /**
      * 删除文件
-     * @param  id 文件ID
+     *
+     * @param id 文件ID
      * @return 删除结果
      */
     Boolean delete(String id);
 
     /**
      * 获取文件信息
+     *
      * @param id 文件ID
      * @return 文件信息
      */

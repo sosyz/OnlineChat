@@ -54,7 +54,7 @@ public class FileServicesImpl implements FileServices {
         ret.setType(1);
         ret.setSize(file.getSize());
 
-        switch (type){
+        switch (type) {
             case 1:
                 path = "avatar/" + path;
                 break;
@@ -82,7 +82,7 @@ public class FileServicesImpl implements FileServices {
                 return null;
             }
             return ret;
-        }else{
+        } else {
             System.out.println("文件上传失败1");
             return null;
         }
