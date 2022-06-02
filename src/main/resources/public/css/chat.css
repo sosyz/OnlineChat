@@ -10,7 +10,7 @@
 }
 
 body {
-    font-family: HarmonyOS_Medium, system-ui, —apple-system, Segoe UI, Rototo, Emoji, Helvetica, Arial, sans-serif;
+    font-family: system-ui, —apple-system, Segoe UI, Rototo, Emoji, Helvetica, Arial, sans-serif;
 }
 
 html,
@@ -102,8 +102,12 @@ body {
 }
 
 #msgSend {
+    display: flex;
+    flex-direction: column;
     padding: 10px;
-    height: 15vh;
+    margin-bottom: 10px;
+    max-height: 20vh;
+    align-items: flex-end;
 }
 
 #sendMsgContent {
@@ -113,6 +117,7 @@ body {
 }
 
 #btn-sendMsg {
+    margin-top: 10px;
     width: 5em;
     --bs-info: #0dcaf0;
     -webkit-text-size-adjust: 100%;
@@ -121,7 +126,6 @@ body {
     -webkit-appearance: button;
     display: inline-block;
     font-weight: 400;
-    line-height: 1.5;
     text-align: center;
     text-decoration: none;
     vertical-align: middle;
@@ -134,4 +138,19 @@ body {
     color: #000;
     background-color: #0dcaf0;
     cursor: pointer;
+}
+
+.msgInput {
+    overflow:scroll;
+    font-size: 16px;
+    padding: 5px;
+    max-width: 98%;
+    width: 98%;
+    height: 13.3vh;
+    border: .5px solid #000;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
 }

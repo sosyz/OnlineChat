@@ -21,7 +21,7 @@
                 <a>在线聊天室</a>
                 <div class="dropdown">
                     <!--下拉菜单-->
-                    <a  style="cursor: pointer; color: #ccc;"
+                    <a style="color: #ccc;"
                         @mouseleave="document.dropdownView = false"
                         @mouseOver="document.dropdownView = true">
                         +
@@ -62,8 +62,9 @@
                 </div>
             </div>
             <div id="msgSend">
-                <label for="sendMsgContent"></label><textarea id="sendMsgContent" maxlength="2400" style="resize: none;"
-                    v-model="sendMsgContent"></textarea>
+                <div class="msgInput" contenteditable="true" @paste="inputPaste">
+                    
+                </div>
                 <a id="btn-sendMsg" @click="sendMsg(sendMsgContent)">发送</a>
             </div>
         </div>

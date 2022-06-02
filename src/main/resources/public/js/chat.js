@@ -4,8 +4,8 @@ const box = Vue.createApp({
             document: {
                 dropdownView: false,
             },
-            selected:'',
-            selecttext:'选择优惠券',
+            selected: '',
+            selecttext: '',
             ws: null,
             myselfInfo: {},
             chatList: [
@@ -25,11 +25,37 @@ const box = Vue.createApp({
                 }
             ],
             nowGroup: '@test',
-            sendMsgContent: '',
+            sendMsgContent: [],
             localMsgId: 0,
         }
     },
     methods: {
+        inputPaste: function (e, value) {
+            // e.preventDefault();
+            // 判断是否为图片
+            console.log(e.clipboardData.files)
+
+            let file = e.clipboardData.files[0]
+            console.log(file)
+            // 判断是否为图片
+            if (file.type.indexOf('image') !== -1) {
+                // 获取文件baase64
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (e) {
+                    let base64 = e.target.result;
+                    let cnt = {
+                        type: 2, //image
+                        content: base64,
+                    }
+                    vm.data.sendMsgContent.push(cnt);
+                    console.log(base64)
+                }
+
+            }
+
+
+        },
         onLoad: function () {
             onlineChat.user.myself().then(res => {
                 res.json().then(data => {
@@ -51,31 +77,43 @@ const box = Vue.createApp({
                 console.log("websocket连接已关闭");
             }
         },
+        creatSendMsg: function (e) {
+            if (e === undefined) return;
+            e.forEach(element => {
+                if (element.nodeName !== '#text' && element.nodeName !== 'IMG') {
+                    // 处理换行
+                    if (element.nodeName === 'DIV') {
+                        this.sendMsgContent.push({ msgId: this.sendMsgContent.length + 1, type: 3 });// 换行
+                    }
+                    
+                    this.creatSendMsg(element.firstChild.childNodes)
+                } else {
+                    let cnt = {
+                        msgId: this.sendMsgContent.length + 1,
+                        type: 1, //text
+                        content: '',
+                    }
+                    if (element.nodeName === '#text') {
+                        cnt.content = element.textContent;
+                    }
+                    if (element.nodeName === 'IMG') {
+                        cnt.type = 2;
+                        cnt.content = element.src;
+                    }
+                    this.sendMsgContent.push(cnt);
+                }
+            });
+        },
         sendMsg: async function (content) {
-            let msg = [{
-                msgId: this.localMsgId + 1,
-                type: 1,
-                content: content,
-            }]
-
+            this.creatSendMsg(document.querySelector("#msgSend > div").childNodes);
             let data = {
                 "type": "SEND_MESSAGE",
                 "msgType": 2,
                 "receiver": this.nowGroup,
-                "content": msg//[
-                //     {
-                //         "msgId": 1,
-                //         "type": 1,
-                //         "content": "hello"
-                //     },
-                //     {
-                //         "msgId": 2,
-                //         "type": 1,
-                //         "content": "hello"
-                //     }
-                // ]
+                "content": this.sendMsgContent
             }
-            this.ws.send(JSON.stringify(data));
+            console.log(data)
+            // this.ws.send(JSON.stringify(data));
         },
         getUserInfoFromLocal: function (uid) {
             let user = this.userList.find(user => user.uid === uid);
@@ -96,7 +134,7 @@ const box = Vue.createApp({
             return msg;
         },
         getLastMessage: async function (groupId) {
-            if (this.msgList[groupId]){
+            if (this.msgList[groupId]) {
                 let content = this.msgList[groupId][this.msgList[groupId].length - 1]
                 let sender = await this.getUserInfoFromLocal(content.sender).name
                 return sender + ':' + this.arrayContentToString(content.content);
@@ -121,7 +159,7 @@ const box = Vue.createApp({
                         sender: data.sender.uid,
                         content: data.content
                     })
-                    if (this.msgList[data.groupId].length > 100){
+                    if (this.msgList[data.groupId].length > 100) {
                         // 删除最早的50条消息
                         this.msgList = this.msgList[data.groupId].splice(0, this.msgList[data.groupId].length - 50);
                     }
