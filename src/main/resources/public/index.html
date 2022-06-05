@@ -30,7 +30,7 @@
         <span style="width: 100%; text-align: right; margin: 10px 2px 10px;">没有账号? <a @click="registerPage=true"
                                                                                       href="javascript:void(0)"
                                                                                       style="color: #0d00bd;text-align: right;text-decoration: none;">点此注册</a></span>
-        <input @click="loginFunc(login.username, login.password)" class="btn" type="submit" value="登录">
+        <input @click="loginFunc(login.username, login.password)" @keyup.enter="loginFunc(login.username, login.password)" class="btn" type="submit" value="登录">
     </div>
     <div id="register" v-show="registerPage">
         <div class="card-head">
@@ -58,7 +58,7 @@
                    type="password" v-model="register.password2">
         </label>
         <a style="width: 100%; color: red;" v-show="register.password2Tip">密码不一致</a>
-        <input @click="registerFunc" class="btn" type="submit" value="注册并登录">
+        <input @click="registerFunc" @keyup.enter="registerFunc" class="btn" type="submit" value="注册并登录">
         <a @click="registerPage=false" class="registerShow" href="javascript:void(0)"
            style="margin-top: 48px;">返回</a>
     </div>
