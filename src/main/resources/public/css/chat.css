@@ -42,7 +42,6 @@ body {
 .chatList-item {
     display: flex;  
     padding: 5px;
-    height: 2.5em;
     cursor: pointer;
 }
 
@@ -64,7 +63,9 @@ body {
     /*溢出部分隐藏*/
     text-overflow: ellipsis;
 }
+
 .chatList-title {
+    line-height: 1.5em;
     margin: 0;
 }
 
@@ -77,7 +78,9 @@ body {
     color: #000;
 }
 
-.dropdown-content {
+
+/* 下拉列表 */
+.myDropdown-content {
     padding: 5px 15px 5px 15px;
     display: flex;
     flex-direction: column;
@@ -87,8 +90,14 @@ body {
     cursor: pointer;
 }
 
-.dropdown-item {
+.myDropdown-item {
+    color: #000;
     border-bottom: 1px solid #cccccc;
+    text-decoration: none;
+}
+
+.myDropdown-item:last-child {
+    border-bottom: none;
 }
 
 #msgView {
@@ -153,4 +162,52 @@ body {
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
     -o-border-radius: 4px;
+}
+
+/* 提示条 */
+.myAlert {
+    display: flex;
+    height: 2.5em;
+    align-items: center;
+    padding: 10px 20px 10px 20px;
+    margin-bottom: 10px;
+}
+
+.info {
+    color: #909399;
+    background-color: #edf2fc;
+    border-left: #909399 solid 3px;
+}
+.success {
+    color: #67c23a;
+    background-color: #f0f9eb;
+    border-left: #67c23a solid 3px;
+}
+
+.error {
+    color: #f56c6c;
+    background-color: #f0f9eb;
+    border-left: #f56c6c solid 3px;
+}
+
+.warning {
+    color: #e6a23c;
+    background-color: #f0f9eb;
+    border-left: #e6a23c solid 3px;
+}
+
+.myBtn-close {
+    box-sizing: content-box;
+    padding: .25em;
+    color: #000;
+    border: 0;
+    border-radius: .25rem;
+    opacity: .5;
+    width: 1em;
+    height: 1em;
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+    -webkit-border-radius: .25rem;
+    -moz-border-radius: .25rem;
+    -ms-border-radius: .25rem;
+    -o-border-radius: .25rem;
 }

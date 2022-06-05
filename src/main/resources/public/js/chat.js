@@ -19,6 +19,24 @@ const box = Vue.createApp({
                     },
                 }
             },
+            alert: [
+                {
+                    class: 'info',
+                    message: '恭喜你，加入群成功！',
+                },
+                {
+                    class: 'success',
+                    message: '恭喜你，加入群成功！',
+                },
+                {
+                    class: 'warning',
+                    message: '恭喜你，加入群成功！',
+                },
+                {
+                    class: 'error',
+                    message: '恭喜你，加入群成功！',
+                }
+            ],
             selected: '',
             selecttext: '',
             ws: null,

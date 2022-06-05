@@ -69,6 +69,36 @@
                 <a id="btn-sendMsg" @click="sendMsg(sendMsgContent)">发送</a>
             </div>
         </div>
+        <div id="myModal" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                  <!-- 模态框头部 -->
+                  <div class="modal-header">
+                    <h4 class="modal-title" v-html="modal.title"></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+             
+                  <!-- 模态框内容 -->
+                  <div class="modal-body" v-html="modal.content">
+
+                  </div>
+             
+                  <!-- 模态框底部 -->
+                  <div class="modal-footer" v-show="modal.btn" v-html="modal.btn">
+                    
+                  </div>
+             
+                </div>
+              </div>
+        </div>
+        <div style="left: 30px; bottom: 60px; position: fixed;">
+            <div v-for="it in alert">
+                <div :class="it.class + ' myAlert'" role="alert">
+                    {{it.message}} 
+                    <button type="button" class="myBtn-close" style="font-size: .6em;" @click="alert.splice(alert.indexOf(it), 1)"></button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="./js/chat.js"></script>
 </body>
