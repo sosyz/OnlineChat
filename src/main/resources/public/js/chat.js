@@ -1,8 +1,23 @@
 const box = Vue.createApp({
     data() {
         return {
+            modal: {
+
+            },
             document: {
                 dropdownView: false,
+                modalBody: {
+                    joinGroup: {
+                        title: '加入群',
+                        content: '<label><a>群ID</a><input type="text" v-model="modal.input" placeholder="请输入群ID"></label>',
+                        btn: '<button type="button" class="btn btn-info" data-bs-dismiss="modal">加入</button>',
+                    },
+                    createGroup: {
+                        title: '创建群',
+                        content: '<label><a>群ID</a><input type="text" v-model="modal.input" placeholder="请输入群ID"></label>',
+                        btn: '<button type="button" class="btn btn-info" data-bs-dismiss="modal">创建</button>',
+                    },
+                }
             },
             selected: '',
             selecttext: '',

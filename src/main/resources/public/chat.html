@@ -8,10 +8,11 @@
     <title>在线聊天室</title>
     <script src="./js/api.js"></script>
     <script src="./js/vue@3.js"></script>
-    <!--    <script src="./js/vue@3.js"></script>-->
+    <script src="./js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="./js/popper.min.js" type="text/javascript"></script>
     <link href="./css/litewebchat.min.css" rel="stylesheet" type="text/css" />
     <link href="./css/chat.css" rel="stylesheet" type="text/css" />
-
+    <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -19,19 +20,19 @@
         <div class="chatList">
             <div class="chatList-console">
                 <a>在线聊天室</a>
-                <div class="dropdown">
+                <div class="myDropdown">
                     <!--下拉菜单-->
-                    <a style="color: #ccc;"
+                    <a style="color: #ccc; cursor: default;"
                         @mouseleave="document.dropdownView = false"
                         @mouseOver="document.dropdownView = true">
                         +
                     </a>
                     <div v-show="document.dropdownView"
-                        class="dropdown-content"
+                        class="myDropdown-content"
                         @mouseOver="document.dropdownView = true"
-                        @mouseleave="document.dropdownView = false">
-                        <a class="dropdown-item">添加群</a>
-                        <a class="dropdown-item">创建群</a>
+                        @mouseleave="document.dropdownView = false" style="margin-top: -5px;">
+                        <a class="myDropdown-item" @click="modal=document.modalBody.joinGroup" data-bs-toggle="modal" data-bs-target="#myModal">添加群</a>
+                        <a class="myDropdown-item" @click="modal=document.modalBody.createGroup" data-bs-toggle="modal" data-bs-target="#myModal">创建群</a>
                     </div>
                 </div>
             </div>
