@@ -10,37 +10,39 @@ const box = Vue.createApp({
                     joinGroup: {
                         title: '加入群',
                         content: '<label><a>群ID</a><input type="text" v-model="modal.input" placeholder="请输入群ID"></label>',
-                        btn: '<button type="button" class="btn btn-info" data-bs-dismiss="modal">加入</button>',
+                        btn: '<button type="button" class="btn btn-info" @click="api.joinGroup(modal.input)" data-bs-dismiss="modal">加入</button>',
                     },
                     createGroup: {
                         title: '创建群',
                         content: '<label><a>群ID</a><input type="text" v-model="modal.input" placeholder="请输入群ID"></label>',
-                        btn: '<button type="button" class="btn btn-info" data-bs-dismiss="modal">创建</button>',
+                        btn: '<button type="button" class="btn btn-info" @click="api.createGroup(modal.input)" data-bs-dismiss="modal">创建</button>',
                     },
                 }
             },
             alert: [
                 {
                     class: 'info',
-                    message: '恭喜你，加入群成功！',
+                    message: '这是一条系统消息',
                 },
                 {
                     class: 'success',
-                    message: '恭喜你，加入群成功！',
+                    message: '这是一条成功消息',
                 },
                 {
                     class: 'warning',
-                    message: '恭喜你，加入群成功！',
+                    message: '这是一条警告消息',
                 },
                 {
                     class: 'error',
-                    message: '恭喜你，加入群成功！',
+                    message: '这是一条错误消息',
                 }
             ],
             selected: '',
             selecttext: '',
             ws: null,
-            myselfInfo: {},
+            myselfInfo: {
+                uid: 1,
+            },
             chatList: [
                 {
                     id: '@test',
@@ -49,12 +51,69 @@ const box = Vue.createApp({
                 }
             ],
             msgList: {
+                '@test': [
+                    {
+                        sender: 2,
+                        content: [
+                            {
+                                msgId: 1,
+                                type:1,
+                                content: "hello, im superpaxxxs"
+                            }
+                        ]
+                    },
+                    {
+                        sender: 1,
+                        content: [
+                            {
+                                msgId: 1,
+                                type:1,
+                                content: "hello, im sonui"
+                            }
+                        ]
+                    },
+                    {
+                        sender: 3,
+                        content: [
+                            {
+                                msgId: 1,
+                                type:1,
+                                content: "hello, im chengjunyu19"
+                            }
+                        ]
+                    },
+                    {
+                        sender: 4,
+                        content: [
+                            {
+                                msgId: 1,
+                                type:1,
+                                content: "hello, im Feng"
+                            }
+                        ]
+                    }
+                ]
             },
             userList: [
                 {
-                    id: -1,
-                    name: '获取中...',
-                    avatar: '',
+                    id: 1,
+                    name: 'Sonui',
+                    avatar: './img/O.jpg'
+                },
+                {
+                    id: 2,
+                    name: 'SuperPaxxxs',
+                    avatar: './img/B.jpg'
+                },
+                {
+                    id: 3,
+                    name: 'chengjunyu19',
+                    avatar: './img/A.jpg'
+                },
+                {
+                    id: 4,
+                    name: '枫',
+                    avatar: './img/F.jpg'
                 }
             ],
             nowGroup: '@test',
@@ -90,6 +149,15 @@ const box = Vue.createApp({
 
         },
         onLoad: function () {
+            // 去除测试数据
+            // this.chatList = [];
+            // this.msgList = {};
+            // this.userList = [];
+            // this.nowGroup = '';
+            // this.sendMsgContent = [];
+            // this.localMsgId = 0;
+            // this.alert = [];
+
             onlineChat.user.myself().then(res => {
                 res.json().then(data => {
                     console.log(data);
@@ -149,15 +217,8 @@ const box = Vue.createApp({
             // this.ws.send(JSON.stringify(data));
         },
         getUserInfoFromLocal: function (uid) {
-            let user = this.userList.find(user => user.uid === uid);
-            if (user) {
-                return user;
-            }
-            return {
-                id: -1,
-                name: '获取中...',
-                avatar: '',
-            };
+            let user = this.userList.find(user => user.id === uid);
+            return user === undefined ? {id: -1, name: '', avatar: ''} : user;
         },
         arrayContentToString: function (content) {
             let msg = '';
