@@ -302,10 +302,11 @@ const box = Vue.createApp({
             }
             return msg;
         },
-        getLastMessage: async function (groupId) {
+        getLastMessage: function (groupId) {
             if (this.msgList[groupId]) {
                 let content = this.msgList[groupId][this.msgList[groupId].length - 1]
-                let sender = await this.getUserInfoFromLocal(content.sender).name
+                console.log(content)
+                let sender = this.getUserInfoFromLocal(content.sender).name
                 return sender + ':' + this.arrayContentToString(content.content);
             }
             return ''
