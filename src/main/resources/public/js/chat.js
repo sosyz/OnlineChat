@@ -122,6 +122,81 @@ const box = Vue.createApp({
         }
     },
     methods: {
+        addAlert(className, message) {
+            this.alert.push({
+                class: className,
+                message: message,
+            })
+        },
+        api: {
+            joinGroup(groupId) {
+                onlineChat.group.join(groupId).then(res => {
+                    if (res.status === 200) {
+                        let ta;
+                        res = res.data;
+                        this.addAlert(
+                            res.code === 0 ? 'success' : 'error', 
+                            res.code === 0 ? '恭喜你，加入群成功' : '加入群失败 错误原因: ' + res.message
+                        );
+
+                        onlineChat.group.getLastMessage(groupId).then(res => {
+                            if (res.status === 200) {
+                                res = res.data;
+                                if (res.code === 0) {
+                                    ta = res.data;
+                                    this.msgList[groupId] = ta;
+                                }
+                            }else{
+                                this.addAlert('error', '服务器错误');
+                            }
+                        })
+                        this.chatList.push({
+                            id: groupId,
+                            name: groupId,
+                            avatar: './img/defaultGroup.jpg',
+                        });
+                    } else {
+                        this.addAlert('error', '服务器错误');
+                    }
+                });
+            },
+            createGroup(groupId) {
+                onlineChat.group.create(groupId).then(res => {
+                    if (res.status === 200) {
+                        let ta;
+                        res = res.data;
+                        this.addAlert(
+                            res.code === 0 ? 'success' : 'warning', 
+                            res.code === 0 ? '恭喜你，创建群成功' : '创建群失败 错误原因: ' + res.message
+                        );
+
+                        onlineChat.group.info(groupId).then(res => {
+                            if (res.status === 200) {
+                                res = res.data;
+                                if (res.code === 0) {
+                                    this.chatList.push({
+                                        id: res.data.groupId,
+                                        name: res.data.name,
+                                        avatar: res.data.avatar
+                                    })
+                                }else {
+                                    this.addAlert('warning', '获取群信息失败 错误原因: ' + res.message);
+                                }
+                            }else{
+                                this.addAlert('error', '服务器错误');
+                            }
+                        })
+                        this.chatList.push({
+                            id: groupId,
+                            name: groupId,
+                            avatar: './img/defaultGroup.jpg',
+                        });
+                    } else {
+                        this.addAlert('error', '服务器错误');
+                    }
+                });
+            }
+        },
         inputPaste: function (e, value) {
             // e.preventDefault();
             // 判断是否为图片

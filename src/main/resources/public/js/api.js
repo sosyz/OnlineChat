@@ -6,6 +6,7 @@ const urlEncode = function (data) {
 };
 const apiUrl = {
     group: {
+        info: "/v1/api/group/info",
         create: '/v1/api/group/create',
         join: '/v1/api/group/join',
         leave: '/v1/api/group/leave',
@@ -21,6 +22,20 @@ const apiUrl = {
 }
 const onlineChat = {
     group: {
+        info: groupId => {
+            return fetch(
+                apiUrl.group.info,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: urlEncode({
+                        groupId: groupId
+                    })
+                }
+            )
+        },
         creat: (name, id, avatar) => {
             return fetch(
                 apiUrl.group.create,
