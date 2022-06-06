@@ -212,3 +212,23 @@ body {
     -ms-border-radius: .25rem;
     -o-border-radius: .25rem;
 }
+
+/* 表单 */
+.form-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    overflow-y: inherit;
+}
+
+.form-item a {
+    color: #000;
+    text-decoration: none;
+    margin-right: .5em;
+    display: inline-block;
+    white-space: nowrap !important;
+}
+.form-item input {
+    width: 100%;
+}

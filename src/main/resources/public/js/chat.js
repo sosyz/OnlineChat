@@ -2,22 +2,11 @@ const box = Vue.createApp({
     data() {
         return {
             modal: {
-
+                title: '',
+                type: '',
             },
             document: {
                 dropdownView: false,
-                modalBody: {
-                    joinGroup: {
-                        title: '加入群',
-                        content: '<label><a>群ID</a><input type="text" v-model="modal.input" placeholder="请输入群ID"></label>',
-                        btn: '<button type="button" class="btn btn-info" @click="api.joinGroup(modal.input)" data-bs-dismiss="modal">加入</button>',
-                    },
-                    createGroup: {
-                        title: '创建群',
-                        content: '<label><a>群ID</a><input type="text" v-model="modal.input" placeholder="请输入群ID"></label>',
-                        btn: '<button type="button" class="btn btn-info" @click="api.createGroup(modal.input)" data-bs-dismiss="modal">创建</button>',
-                    },
-                }
             },
             alert: [
                 {
@@ -57,7 +46,7 @@ const box = Vue.createApp({
                         content: [
                             {
                                 msgId: 1,
-                                type:1,
+                                type: 1,
                                 content: "hello, im superpaxxxs"
                             }
                         ]
@@ -67,7 +56,7 @@ const box = Vue.createApp({
                         content: [
                             {
                                 msgId: 1,
-                                type:1,
+                                type: 1,
                                 content: "hello, im sonui"
                             }
                         ]
@@ -77,7 +66,7 @@ const box = Vue.createApp({
                         content: [
                             {
                                 msgId: 1,
-                                type:1,
+                                type: 1,
                                 content: "hello, im chengjunyu19"
                             }
                         ]
@@ -87,7 +76,7 @@ const box = Vue.createApp({
                         content: [
                             {
                                 msgId: 1,
-                                type:1,
+                                type: 1,
                                 content: "hello, im Feng"
                             }
                         ]
@@ -128,74 +117,72 @@ const box = Vue.createApp({
                 message: message,
             })
         },
-        api: {
-            joinGroup(groupId) {
-                onlineChat.group.join(groupId).then(res => {
-                    if (res.status === 200) {
-                        let ta;
-                        res = res.data;
-                        this.addAlert(
-                            res.code === 0 ? 'success' : 'error', 
-                            res.code === 0 ? '恭喜你，加入群成功' : '加入群失败 错误原因: ' + res.message
-                        );
+        apiJoinGroup(groupId) {
+            onlineChat.group.join(groupId).then(res => {
+                if (res.status === 200) {
+                    let ta;
+                    res = res.data;
+                    this.addAlert(
+                        res.code === 0 ? 'success' : 'error',
+                        res.code === 0 ? '恭喜你，加入群成功' : '加入群失败 错误原因: ' + res.message
+                    );
 
-                        onlineChat.group.getLastMessage(groupId).then(res => {
-                            if (res.status === 200) {
-                                res = res.data;
-                                if (res.code === 0) {
-                                    ta = res.data;
-                                    this.msgList[groupId] = ta;
-                                }
-                            }else{
-                                this.addAlert('error', '服务器错误');
+                    onlineChat.group.getLastMessage(groupId).then(res => {
+                        if (res.status === 200) {
+                            res = res.data;
+                            if (res.code === 0) {
+                                ta = res.data;
+                                this.msgList[groupId] = ta;
                             }
-                        })
-                        this.chatList.push({
-                            id: groupId,
-                            name: groupId,
-                            avatar: './img/defaultGroup.jpg',
-                        });
-                    } else {
-                        this.addAlert('error', '服务器错误');
-                    }
-                });
-            },
-            createGroup(groupId) {
-                onlineChat.group.create(groupId).then(res => {
-                    if (res.status === 200) {
-                        let ta;
-                        res = res.data;
-                        this.addAlert(
-                            res.code === 0 ? 'success' : 'warning', 
-                            res.code === 0 ? '恭喜你，创建群成功' : '创建群失败 错误原因: ' + res.message
-                        );
+                        } else {
+                            this.addAlert('error', '服务器错误');
+                        }
+                    })
+                    this.chatList.push({
+                        id: groupId,
+                        name: groupId,
+                        avatar: './img/defaultGroup.jpg',
+                    });
+                } else {
+                    this.addAlert('error', '服务器错误');
+                }
+            });
+        },
+        apiCreateGroup(groupId) {
+            onlineChat.group.create(groupId).then(res => {
+                if (res.status === 200) {
+                    let ta;
+                    res = res.data;
+                    this.addAlert(
+                        res.code === 0 ? 'success' : 'warning',
+                        res.code === 0 ? '恭喜你，创建群成功' : '创建群失败 错误原因: ' + res.message
+                    );
 
-                        onlineChat.group.info(groupId).then(res => {
-                            if (res.status === 200) {
-                                res = res.data;
-                                if (res.code === 0) {
-                                    this.chatList.push({
-                                        id: res.data.groupId,
-                                        name: res.data.name,
-                                        avatar: res.data.avatar
-                                    })
-                                }else {
-                                    this.addAlert('warning', '获取群信息失败 错误原因: ' + res.message);
-                                }
-                            }else{
-                                this.addAlert('error', '服务器错误');
+                    onlineChat.group.info(groupId).then(res => {
+                        if (res.status === 200) {
+                            res = res.data;
+                            if (res.code === 0) {
+                                this.chatList.push({
+                                    id: res.data.groupId,
+                                    name: res.data.name,
+                                    avatar: res.data.avatar
+                                })
+                            } else {
+                                this.addAlert('warning', '获取群信息失败 错误原因: ' + res.message);
                             }
-                        })
-                        this.chatList.push({
-                            id: groupId,
-                            name: groupId,
-                            avatar: './img/defaultGroup.jpg',
-                        });
-                    } else {
-                        this.addAlert('error', '服务器错误');
-                    }
-                });
-            }
+                        } else {
+                            this.addAlert('error', '服务器错误');
+                        }
+                    })
+                    this.chatList.push({
+                        id: groupId,
+                        name: groupId,
+                        avatar: './img/defaultGroup.jpg',
+                    });
+                } else {
+                    this.addAlert('error', '服务器错误');
+                }
+            });
         },
         inputPaste: function (e, value) {
             // e.preventDefault();
@@ -253,6 +240,15 @@ const box = Vue.createApp({
                 console.log("websocket连接已关闭");
             }
         },
+        upLoadFile: function (option) {
+            console.log(123);
+            file = document.getElementById(option.eleId).files[0];
+            console.log(document.getElementById(option.eleId));
+            if (!file) return;
+            console.log(file);
+            console.log(onlineChat.file.upload(file));
+
+        },
         creatSendMsg: function (e) {
             if (e === undefined) return;
             e.forEach(element => {
@@ -261,7 +257,7 @@ const box = Vue.createApp({
                     if (element.nodeName === 'DIV') {
                         this.sendMsgContent.push({ msgId: this.sendMsgContent.length + 1, type: 3 });// 换行
                     }
-                    
+
                     this.creatSendMsg(element.firstChild.childNodes)
                 } else {
                     let cnt = {
@@ -293,7 +289,7 @@ const box = Vue.createApp({
         },
         getUserInfoFromLocal: function (uid) {
             let user = this.userList.find(user => user.id === uid);
-            return user === undefined ? {id: -1, name: '', avatar: ''} : user;
+            return user === undefined ? { id: -1, name: '', avatar: '' } : user;
         },
         arrayContentToString: function (content) {
             let msg = '';
@@ -305,7 +301,6 @@ const box = Vue.createApp({
         getLastMessage: function (groupId) {
             if (this.msgList[groupId]) {
                 let content = this.msgList[groupId][this.msgList[groupId].length - 1]
-                console.log(content)
                 let sender = this.getUserInfoFromLocal(content.sender).name
                 return sender + ':' + this.arrayContentToString(content.content);
             }
