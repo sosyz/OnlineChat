@@ -18,9 +18,32 @@ const apiUrl = {
         register: '/v1/api/user/register',
         getUserInfo: '/v1/api/user/info',
         myself: '/v1/api/user/self'
+    },
+    file: {
+        upload: '/v1/api/file/upload',
+        delete: '/v1/api/file/delete',
+        get: '/v1/api/file/get'
     }
 }
 const onlineChat = {
+    file:{
+        upload: file => {
+            let form = new FormData();
+            form.append('file', file);
+            form.append('name', file.name);
+            form.append('type', 1);
+            return fetch(
+                apiUrl.file.upload,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/form-data'
+                    },
+                    body: form
+                }
+            )
+        }
+    },
     group: {
         info: groupId => {
             return fetch(
