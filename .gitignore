@@ -35,4 +35,4 @@ build/
 ignotus/
 
 log.md
-/src/main/resources/log4j.xml
+/src/main/resources/public/img/
