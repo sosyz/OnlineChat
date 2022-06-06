@@ -241,12 +241,20 @@ const box = Vue.createApp({
             }
         },
         upLoadFile: function (option) {
-            console.log(123);
-            file = document.getElementById(option.eleId).files[0];
-            console.log(document.getElementById(option.eleId));
+            let file = document.getElementById(option.eleId).files[0];
             if (!file) return;
             console.log(file);
-            console.log(onlineChat.file.upload(file));
+            onlineChat.file.upload(file).then(res => {
+                res.json().then(data => {
+                    console.log(data);
+                    if (data.code === 0) {
+                        option.callback('/v1/api/file/get?id=' + data.fid);
+                    }else{
+                        option.callback(null);
+                    }
+                })
+            })
+            console.log();
 
         },
         creatSendMsg: function (e) {

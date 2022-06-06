@@ -31,14 +31,11 @@ const onlineChat = {
             let form = new FormData();
             form.append('file', file);
             form.append('name', file.name);
-            form.append('type', 1);
+            form.append('type', '1');
             return fetch(
                 apiUrl.file.upload,
                 {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/form-data'
-                    },
                     body: form
                 }
             )
