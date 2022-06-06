@@ -54,6 +54,7 @@ public class UserController {
             ret = new LoginVo(1, "用户名或密码错误");
         } else {
             Cookie cookie = new Cookie("token", token);
+            cookie.setPath("/");
             //Https 安全cookie
             // cookie.setSecure(true);
             responseBody.addCookie(cookie);
