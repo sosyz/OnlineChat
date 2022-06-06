@@ -1,9 +1,11 @@
 package cn.sonui.onlinechat.controller;
 
+import cn.sonui.onlinechat.model.Group;
 import cn.sonui.onlinechat.model.User;
 import cn.sonui.onlinechat.service.GroupMembersService;
 import cn.sonui.onlinechat.service.GroupService;
 import cn.sonui.onlinechat.vo.impl.UniversalVo;
+import cn.sonui.onlinechat.vo.impl.group.GroupInfoVo;
 import cn.sonui.onlinechat.vo.impl.group.GroupListVo;
 import cn.sonui.onlinechat.vo.impl.group.GroupMembersListVo;
 import com.tairitsu.ignotus.cache.CacheService;
@@ -20,6 +22,26 @@ public class GroupController {
 
     @Autowired
     CacheService cache;
+
+    @PostMapping("/info")
+    public GroupInfoVo info(@RequestParam("id") String id) {
+        GroupInfoVo ret = new GroupInfoVo();
+        User user = cache.get("token", User.class, null);
+        if (user == null) {
+            ret.setCode(1);
+            ret.setMsg("请先登录");
+            return ret;
+        }
+        Group res = groupService.query(id);
+        if (res == null) {
+            ret.setCode(2);
+            ret.setMsg("获取失败");
+        } else {
+            ret.setCode(0);
+            ret.setGroup(new Group(res.getGroupId(), res.getName(), res.getAvatar()));
+        }
+        return ret;
+    }
 
     @PostMapping("/list")
     public GroupListVo list(

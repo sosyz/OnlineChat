@@ -5,6 +5,15 @@ public class Group {
     private String name;
     private String avatar;
 
+    public Group() {
+    }
+
+    public Group(String id, String name, String avatar) {
+        this.id = id;
+        this.name = name;
+        this.avatar = avatar;
+    }
+
     public String getGroupId() {
         return id;
     }
