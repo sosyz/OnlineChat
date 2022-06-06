@@ -91,21 +91,24 @@ public class FileServicesImpl implements FileServices {
     /**
      * 下载文件
      *
-     * @param fileName 文件名
+     * @param id 文件名
      * @return 下载结果
      */
-    public ResponseEntity<byte[]> download(String fileName) {
+    public ResponseEntity<byte[]> download(String id) {
+        FileModel file = filesMapper.selectById(id);
+        if (file == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         ResponseEntity<byte[]> responseEntity = null;
         InputStream in = null;
         ByteArrayOutputStream out = null;
         try {
-            in = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
+            in = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(file.getPath()).build());
             out = new ByteArrayOutputStream();
             IOUtils.copy(in, out);
             //封装返回值
             byte[] bytes = out.toByteArray();
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+            headers.add("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), StandardCharsets.UTF_8));
             headers.setContentLength(bytes.length);
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers.setAccessControlExposeHeaders(List.of("*"));
