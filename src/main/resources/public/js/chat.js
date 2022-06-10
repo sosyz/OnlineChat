@@ -9,22 +9,22 @@ const box = Vue.createApp({
                 dropdownView: false,
             },
             alert: [
-                {
-                    class: 'info',
-                    message: '这是一条系统消息',
-                },
-                {
-                    class: 'success',
-                    message: '这是一条成功消息',
-                },
-                {
-                    class: 'warning',
-                    message: '这是一条警告消息',
-                },
-                {
-                    class: 'error',
-                    message: '这是一条错误消息',
-                }
+                // {
+                //     class: 'info',
+                //     message: '这是一条系统消息',
+                // },
+                // {
+                //     class: 'success',
+                //     message: '这是一条成功消息',
+                // },
+                // {
+                //     class: 'warning',
+                //     message: '这是一条警告消息',
+                // },
+                // {
+                //     class: 'error',
+                //     message: '这是一条错误消息',
+                // }
             ],
             selected: '',
             selecttext: '',
@@ -33,79 +33,12 @@ const box = Vue.createApp({
                 uid: 1,
             },
             chatList: [
-                {
-                    id: '@test',
-                    name: 'MCT魔帆',
-                    avatar: './img/defaultGroup.jpg',
-                }
             ],
             msgList: {
-                '@test': [
-                    {
-                        sender: 2,
-                        content: [
-                            {
-                                msgId: 1,
-                                type: 1,
-                                content: "hello, im superpaxxxs"
-                            }
-                        ]
-                    },
-                    {
-                        sender: 1,
-                        content: [
-                            {
-                                msgId: 1,
-                                type: 1,
-                                content: "hello, im sonui"
-                            }
-                        ]
-                    },
-                    {
-                        sender: 3,
-                        content: [
-                            {
-                                msgId: 1,
-                                type: 1,
-                                content: "hello, im chengjunyu19"
-                            }
-                        ]
-                    },
-                    {
-                        sender: 4,
-                        content: [
-                            {
-                                msgId: 1,
-                                type: 1,
-                                content: "hello, im Feng"
-                            }
-                        ]
-                    }
-                ]
             },
             userList: [
-                {
-                    id: 1,
-                    name: 'Sonui',
-                    avatar: './img/O.jpg'
-                },
-                {
-                    id: 2,
-                    name: 'SuperPaxxxs',
-                    avatar: './img/B.jpg'
-                },
-                {
-                    id: 3,
-                    name: 'chengjunyu19',
-                    avatar: './img/A.jpg'
-                },
-                {
-                    id: 4,
-                    name: '枫',
-                    avatar: './img/F.jpg'
-                }
             ],
-            nowGroup: '@test',
+            nowGroup: 1,
             sendMsgContent: [],
             localMsgId: 0,
         }
@@ -120,65 +53,50 @@ const box = Vue.createApp({
         apiJoinGroup(groupId) {
             onlineChat.group.join(groupId).then(res => {
                 if (res.status === 200) {
-                    let ta;
-                    res = res.data;
-                    this.addAlert(
-                        res.code === 0 ? 'success' : 'error',
-                        res.code === 0 ? '恭喜你，加入群成功' : '加入群失败 错误原因: ' + res.message
-                    );
-
-                    onlineChat.group.getLastMessage(groupId).then(res => {
-                        if (res.status === 200) {
-                            res = res.data;
-                            if (res.code === 0) {
-                                ta = res.data;
-                                this.msgList[groupId] = ta;
-                            }
-                        } else {
-                            this.addAlert('error', '服务器错误');
+                    res.json().then(data => {
+                        console.log(data);
+                        this.addAlert(
+                            data.code === 0 ? 'success' : 'error',
+                            data.code === 0 ? '加入群成功' : '加入群失败 错误原因: ' + data.msg
+                        );
+                        if (data.code === 0) {
+                            this.updateGroupList();
                         }
                     })
-                    this.chatList.push({
-                        id: groupId,
-                        name: groupId,
-                        avatar: './img/defaultGroup.jpg',
-                    });
                 } else {
                     this.addAlert('error', '服务器错误');
                 }
             });
         },
-        apiCreateGroup(groupId) {
-            onlineChat.group.create(groupId).then(res => {
+        apiCreateGroup(name, id, avatar) {
+            onlineChat.group.create(name, id, avatar).then(res => {
                 if (res.status === 200) {
-                    let ta;
-                    res = res.data;
-                    this.addAlert(
-                        res.code === 0 ? 'success' : 'warning',
-                        res.code === 0 ? '恭喜你，创建群成功' : '创建群失败 错误原因: ' + res.message
-                    );
-
-                    onlineChat.group.info(groupId).then(res => {
-                        if (res.status === 200) {
-                            res = res.data;
-                            if (res.code === 0) {
-                                this.chatList.push({
-                                    id: res.data.groupId,
-                                    name: res.data.name,
-                                    avatar: res.data.avatar
-                                })
-                            } else {
-                                this.addAlert('warning', '获取群信息失败 错误原因: ' + res.message);
-                            }
-                        } else {
-                            this.addAlert('error', '服务器错误');
+                    res.json().then(data => {
+                        console.log(data);
+                        this.addAlert(
+                            data.code === 0 ? 'success' : 'warning',
+                            data.code === 0 ? '创建群成功' : '创建群失败 错误原因: ' + data.msg
+                        );
+                        if (data.code === 0) {
+                            this.updateGroupList();
                         }
                     })
-                    this.chatList.push({
-                        id: groupId,
-                        name: groupId,
-                        avatar: './img/defaultGroup.jpg',
-                    });
+                } else {
+                    this.addAlert('error', '服务器错误');
+                }
+            });
+        },
+        updateGroupList: function () {
+            onlineChat.group.inList().then(res => {
+                if (res.status === 200) {
+                    res.json().then(data => {
+                        console.log(data);
+                        if (data.code === 0) {
+                            this.chatList = data.groups;
+                        } else {
+                            this.addAlert('error', '获取群列表失败 错误原因: ' + data.msg);
+                        }
+                    })
                 } else {
                     this.addAlert('error', '服务器错误');
                 }
@@ -207,19 +125,8 @@ const box = Vue.createApp({
                 }
 
             }
-
-
         },
         onLoad: function () {
-            // 去除测试数据
-            // this.chatList = [];
-            // this.msgList = {};
-            // this.userList = [];
-            // this.nowGroup = '';
-            // this.sendMsgContent = [];
-            // this.localMsgId = 0;
-            // this.alert = [];
-
             onlineChat.user.myself().then(res => {
                 res.json().then(data => {
                     console.log(data);
@@ -231,6 +138,7 @@ const box = Vue.createApp({
                     }
                 })
             })
+            this.updateGroupList();
             this.ws = new WebSocket('ws://' + window.location.host + '/v1/ws/chat?token=' + localStorage.getItem('token'))
             this.ws.onopen = () => {
                 console.log("建立websocket连接成功");
@@ -284,7 +192,7 @@ const box = Vue.createApp({
                 }
             });
         },
-        sendMsg: async function (content) {
+        sendMsg: async function () {
             this.creatSendMsg(document.querySelector("#msgSend > div").childNodes);
             let data = {
                 "type": "SEND_MESSAGE",
@@ -293,10 +201,12 @@ const box = Vue.createApp({
                 "content": this.sendMsgContent
             }
             console.log(data)
-            // this.ws.send(JSON.stringify(data));
+            this.ws.send(JSON.stringify(data));
+            this.sendMsgContent = [];
+            document.querySelector("#msgSend > div").innerHTML = '';
         },
-        getUserInfoFromLocal: function (uid) {
-            let user = this.userList.find(user => user.id === uid);
+        getUserInfoFromLocal: function (sender) {
+            let user = this.userList.find(user => user.uid === sender);
             return user === undefined ? { id: -1, name: '', avatar: '' } : user;
         },
         arrayContentToString: function (content) {
@@ -309,7 +219,7 @@ const box = Vue.createApp({
         getLastMessage: function (groupId) {
             if (this.msgList[groupId]) {
                 let content = this.msgList[groupId][this.msgList[groupId].length - 1]
-                let sender = this.getUserInfoFromLocal(content.sender).name
+                let sender = this.getUserInfoFromLocal(content.sender).nickName
                 return sender + ':' + this.arrayContentToString(content.content);
             }
             return ''
