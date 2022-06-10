@@ -76,7 +76,7 @@ public class GroupController {
         if ("".equals(name) || "".equals(key) || "".equals(avatar)) {
             return new UniversalVo(1, "参数不能为空");
         } else {
-            Integer s = groupService.create(name, key, avatar);
+            Integer s = groupService.create(key, name, avatar);
             groupMembersService.addGroupMember(key, 1L, user.getUid());
             groupMembersService.setPri(key, user.getUid(), 2L);
             return new UniversalVo(s != 0 ? 0 : 1, s != 0 ? "创建成功" : "创建失败");

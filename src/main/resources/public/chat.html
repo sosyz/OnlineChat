@@ -40,15 +40,15 @@
         </div>
         <div class="chatList-item" v-for="item in chatList">
             <img :src="item.avatar" alt="头像" style="margin: 0 auto; border-radius: 5px; width: 3em; height: 3em;">
-            <div style="display: flex; flex-direction: column; margin-left: 5px;">
+            <div style="display: flex; flex-direction: column; margin-left: 5px;" @click="nowGroup=item.groupId">
                 <p class="chatList-title">{{item.name}}</p>
-                <p class="chatList-content" v-text="getLastMessage(item.id)"></p>
+                <p class="chatList-content" v-text="getLastMessage(item.groupId)"></p>
             </div>
         </div>
     </div>
     <div id="msgConsole" style="width: 100%">
         <div id="msgView">
-            <!-- 主容器 -->
+            <!-- 聊天消息展示 -->
             <div class="lite-chatbox" style="height: 100%">
                 <div v-for="item in msgList[nowGroup]">
                     <div class="tips" v-if="item.sender === 10000">
@@ -58,7 +58,7 @@
                          v-if="item.sender !== 10000">
                         <img :src="getUserInfoFromLocal(item.sender).avatar" alt="头像" class="headIcon radius"
                              oncontextmenu="return false;" ondragstart="return false;"/>
-                        <span class="name" v-text="getUserInfoFromLocal(item.sender).name"></span>
+                        <span class="name" v-text="getUserInfoFromLocal(item.sender).nickName"></span>
                         <span class="content" v-text="arrayContentToString(item.content)"></span>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                         </label>
                         <label class="form-item">
                             <a>群昵称: </a>
-                            <input type="text" v-model="modal.input2" placeholder="请输入群昵称">
+                            <input type="text" v-model="modal.input1" placeholder="请输入群昵称">
                         </label>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                         <button type="button" class="btn btn-info" @click="apiJoinGroup(modal.input)" data-bs-dismiss="modal">加入</button>
                     </div>
                     <div v-show="modal.type === 'createGroup'">
-                        <button type="button" class="btn btn-info" @click="apiCreateGroup(modal.input)" data-bs-dismiss="modal">创建</button>
+                        <button type="button" class="btn btn-info" @click="apiCreateGroup(modal.input1, modal.input, modal.groupAvatar)" data-bs-dismiss="modal">创建</button>
                     </div>
                 </div>
 
