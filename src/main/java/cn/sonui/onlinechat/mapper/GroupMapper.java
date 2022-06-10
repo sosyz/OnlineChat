@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author Sonui
  */
@@ -43,7 +45,17 @@ public interface GroupMapper {
      */
     @Select("SELECT * FROM `groups`" +
             " where name like #{key}")
-    Group[] queryList(String key);
+    List<Group> queryList(String key);
+
+    /**
+     * 查询用户所在群列表
+     *
+     * @param userId 用户id
+     * @return 群列表
+     */
+    @Select("SELECT * FROM `groups`" +
+            " where id in (select group_id from group_members where user_id = #{userId})")
+    List<Group> queryUserInGroupList(Long userId);
 
     /**
      * 查询群列表
@@ -51,7 +63,7 @@ public interface GroupMapper {
      * @return 群列表
      */
     @Select("SELECT * FROM `groups`")
-    Group[] queryAll();
+    List<Group> queryAll();
 
     /**
      * 修改群信息

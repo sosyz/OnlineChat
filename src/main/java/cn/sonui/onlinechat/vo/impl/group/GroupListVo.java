@@ -4,28 +4,29 @@ import cn.sonui.onlinechat.model.Group;
 import cn.sonui.onlinechat.vo.Vo;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class GroupListVo implements Vo {
     private Integer code = 0;
     private String msg;
 
-    private Group[] groups;
+    private List<Group> data;
 
     public GroupListVo() {
     }
 
-    public GroupListVo(Integer code, String msg, Group[] groups) {
+    public GroupListVo(Integer code, String msg, List<Group> groups) {
         this.code = code;
         this.msg = msg;
-        this.groups = groups;
+        this.data = groups;
     }
 
-    public Group[] getGroups() {
-        return groups;
+    public List<Group> getGroups() {
+        return data;
     }
 
-    public void setGroups(Group[] groups) {
-        this.groups = groups;
+    public void setGroups(List<Group> groups) {
+        this.data = groups;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class GroupListVo implements Vo {
         return "GroupListVO{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
-                ", groups=" + Arrays.toString(groups) +
+                ", groups=" + data +
                 '}';
     }
 }

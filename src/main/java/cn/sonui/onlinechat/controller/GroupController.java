@@ -50,6 +50,17 @@ public class GroupController {
         return new GroupListVo(0, "查询完毕", "".equals(key) ? groupService.queryAll() : groupService.queryByKey(key));
     }
 
+    @GetMapping("/inlist")
+    public GroupListVo inList(
+            @CookieValue("token") String token
+    ) {
+        User user = cache.get(token, User.class, null);
+        if (user == null) {
+            return new GroupListVo(1, "请先登录", null);
+        }
+        return new GroupListVo(0, "查询完毕", groupService.queryUserInGroupList(user.getUid()));
+    }
+
     @PostMapping("/create")
     public UniversalVo create(
             @RequestParam(value = "name") String name,

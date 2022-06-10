@@ -2,6 +2,8 @@ package cn.sonui.onlinechat.service;
 
 import cn.sonui.onlinechat.model.Group;
 
+import java.util.List;
+
 /**
  * @author Sonui
  */
@@ -20,14 +22,14 @@ public interface GroupService {
      * @param key 查询关键词
      * @return 群组实体
      */
-    Group[] queryByKey(String key);
+    List<Group> queryByKey(String key);
 
     /**
      * 查询群组
      *
      * @return 群组实体数组
      */
-    Group[] queryAll();
+    List<Group> queryAll();
 
     /**
      * 创建群组
@@ -56,4 +58,13 @@ public interface GroupService {
      * @return 删除结果
      */
     Integer delete(String groupId);
+
+
+    /**
+     * 查询所在群列表
+     *
+     * @param userId  用户id
+     * @return 群列表
+     */
+    List<Group> queryUserInGroupList(Long userId);
 }

@@ -11,6 +11,7 @@ const apiUrl = {
         join: '/v1/api/group/join',
         leave: '/v1/api/group/leave',
         list: '/v1/api/group/list',
+        inList: '/v1/api/group/inlist',
         delete: '/v1/api/group/delete',
     },
     user: {
@@ -56,7 +57,18 @@ const onlineChat = {
                 }
             )
         },
-        creat: (name, id, avatar) => {
+        inList: () => {
+            return fetch(
+                apiUrl.group.inList,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            )
+        },
+        create: (name, id, avatar) => {
             return fetch(
                 apiUrl.group.create,
                 {
