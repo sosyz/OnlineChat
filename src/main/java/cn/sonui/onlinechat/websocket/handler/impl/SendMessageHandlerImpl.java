@@ -27,7 +27,9 @@ public class SendMessageHandlerImpl implements MessageHandler {
             WebSocketRequestSendMessageImpl sendMessage = mapper.readValue(message, WebSocketRequestSendMessageImpl.class);
             // 追加发送者
             sendMessage.setSender((Long) session.getAttributes().get("userId"));
-            sendMessageProducer.sendMsg(mapper.writeValueAsString(sendMessage));
+            if (!"".equals(sendMessage.getReceiver()) && sendMessage.getReceiver() != null) {
+                sendMessageProducer.sendMsg(mapper.writeValueAsString(sendMessage));
+            }
         } catch (Exception e) {
             logger.warn("[WebSocket][SendMessageHandlerImpl][消息处理失败, msg:{}]", e.getMessage());
         }
