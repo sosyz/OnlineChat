@@ -28,11 +28,11 @@ const apiUrl = {
 }
 const onlineChat = {
     file:{
-        upload: file => {
+        upload: (file, type) => {
             let form = new FormData();
             form.append('file', file);
             form.append('name', file.name);
-            form.append('type', '1');
+            form.append('type', type);
             return fetch(
                 apiUrl.file.upload,
                 {
