@@ -6,6 +6,8 @@ import cn.sonui.onlinechat.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GroupServiceImpl implements GroupService {
     @Autowired
@@ -17,13 +19,18 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Group[] queryByKey(String key) {
+    public List<Group> queryByKey(String key) {
         return groupMapper.queryList(key);
     }
 
     @Override
-    public Group[] queryAll() {
+    public List<Group> queryAll() {
         return groupMapper.queryAll();
+    }
+
+    @Override
+    public List<Group> queryUserInGroupList(Long userId){
+        return groupMapper.queryUserInGroupList(userId);
     }
 
     @Override
