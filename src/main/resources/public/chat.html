@@ -38,12 +38,15 @@
                 </div>
             </div>
         </div>
-        <div class="chatList-item" v-for="item in chatList">
-            <img :src="item.avatar" alt="头像" style="margin: 0 auto; border-radius: 5px; width: 3em; height: 3em;">
-            <div style="display: flex; flex-direction: column; margin-left: 5px;" @click="nowGroup=item.groupId">
-                <p class="chatList-title">{{item.name}}</p>
-                <p class="chatList-content" v-text="getLastMessage(item.groupId)"></p>
+        <div v-for="item in chatList">
+            <div class="chatList-item" :style="nowGroup == item.groupId ? 'background: #0000000f;': ''">
+                <img :src="item.avatar" alt="头像" style="margin: 0 auto; border-radius: 5px; width: 3em; height: 3em;">
+                <div style="display: flex; flex-direction: column; margin-left: 5px;" @click="nowGroup=item.groupId">
+                    <p class="chatList-title">{{item.name}}</p>
+                    <p class="chatList-content" v-text="getLastMessage(item.groupId)"></p>
+                </div>
             </div>
+
         </div>
     </div>
     <div id="msgConsole" style="width: 100%">
@@ -59,13 +62,13 @@
                         <img :src="getUserInfoFromLocal(item.sender).avatar" alt="头像" class="headIcon radius"
                              oncontextmenu="return false;" ondragstart="return false;"/>
                         <span class="name" v-text="getUserInfoFromLocal(item.sender).nickName"></span>
-                        <span class="content" v-text="arrayContentToString(item.content)"></span>
+                        <span class="content" v-html="arrayContentToString(item.content)"></span>
                     </div>
                 </div>
             </div>
         </div>
         <div id="msgSend">
-            <div @paste="inputPaste" class="msgInput" contenteditable="true">
+            <div id="msgSendContent" @paste="inputPaste" class="msgInput" contenteditable="true">
 
             </div>
             <a @click="sendMsg(sendMsgContent)" id="btn-sendMsg">发送</a>

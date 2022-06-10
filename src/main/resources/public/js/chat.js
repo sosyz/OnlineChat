@@ -38,7 +38,7 @@ const box = Vue.createApp({
             },
             userList: [
             ],
-            nowGroup: 1,
+            nowGroup: '',
             sendMsgContent: [],
             localMsgId: 0,
         }
@@ -103,7 +103,7 @@ const box = Vue.createApp({
             });
         },
         inputPaste: function (e, value) {
-            // e.preventDefault();
+            e.preventDefault()
             // 判断是否为图片
             console.log(e.clipboardData.files)
 
@@ -111,19 +111,21 @@ const box = Vue.createApp({
             console.log(file)
             // 判断是否为图片
             if (file.type.indexOf('image') !== -1) {
-                // 获取文件baase64
-                let reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function (e) {
-                    let base64 = e.target.result;
-                    let cnt = {
-                        type: 2, //image
-                        content: base64,
+                // document.getElementById('msgSendContent').innerHTML += `<img style="max-height: 100%;" src="${URL.createObjectURL(file)}" alt="">`
+                onlineChat.file.upload(file, 2).then(res => {
+                    if (res.status === 200) {
+                        res.json().then(data => {
+                            console.log(data);
+                            if (data.code === 0) {
+                                document.getElementById('msgSendContent').innerHTML += '<img style="max-height: 100%;" src="' + '/v1/api/file/get?id=' + data.fid + '" alt="">'
+                            } else {
+                                this.addAlert('error', '上传图片失败 错误原因: ' + data.msg);
+                            }
+                        })
+                    } else {
+                        this.addAlert('error', '服务器错误');
                     }
-                    vm.data.sendMsgContent.push(cnt);
-                    console.log(base64)
-                }
-
+                });
             }
         },
         onLoad: function () {
@@ -151,8 +153,7 @@ const box = Vue.createApp({
         upLoadFile: function (option) {
             let file = document.getElementById(option.eleId).files[0];
             if (!file) return;
-            console.log(file);
-            onlineChat.file.upload(file).then(res => {
+            onlineChat.file.upload(file, 1).then(res => {
                 res.json().then(data => {
                     console.log(data);
                     if (data.code === 0) {
@@ -162,8 +163,6 @@ const box = Vue.createApp({
                     }
                 })
             })
-            console.log();
-
         },
         creatSendMsg: function (e) {
             if (e === undefined) return;
@@ -209,10 +208,14 @@ const box = Vue.createApp({
             let user = this.userList.find(user => user.uid === sender);
             return user === undefined ? { id: -1, name: '', avatar: '' } : user;
         },
-        arrayContentToString: function (content) {
+        arrayContentToString: function (content, noHtml = false) {
             let msg = '';
             for (let n in content) {
-                msg += content[n].content;
+                if (content[n].type === 1) {
+                    msg += content[n].content;
+                }else if (content[n].type === 2) {
+                    msg += noHtml ? '[图片]' : '<img src="' + content[n].content + '" />';
+                }
             }
             return msg;
         },
@@ -220,7 +223,7 @@ const box = Vue.createApp({
             if (this.msgList[groupId]) {
                 let content = this.msgList[groupId][this.msgList[groupId].length - 1]
                 let sender = this.getUserInfoFromLocal(content.sender).nickName
-                return sender + ':' + this.arrayContentToString(content.content);
+                return sender + ':' + this.arrayContentToString(content.content, true);
             }
             return ''
         },
