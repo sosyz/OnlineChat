@@ -4,6 +4,7 @@ import cn.sonui.onlinechat.model.Group;
 import cn.sonui.onlinechat.model.User;
 import cn.sonui.onlinechat.service.GroupMembersService;
 import cn.sonui.onlinechat.service.GroupService;
+import cn.sonui.onlinechat.utils.SessionUtils;
 import cn.sonui.onlinechat.vo.impl.UniversalVo;
 import cn.sonui.onlinechat.vo.impl.group.GroupInfoVo;
 import cn.sonui.onlinechat.vo.impl.group.GroupListVo;
@@ -64,7 +65,7 @@ public class GroupController {
     @PostMapping("/create")
     public UniversalVo create(
             @RequestParam(value = "name") String name,
-            @RequestParam(value = "id") String key,
+            @RequestParam(value = "id") String groupId,
             @RequestParam(value = "avatar") String avatar,
             @CookieValue(value = "token") String token
     ) {
@@ -73,12 +74,14 @@ public class GroupController {
             return new UniversalVo(1, "请先登录");
         }
         // TODO: 直接信任头像URL有风险，做一个映射
-        if ("".equals(name) || "".equals(key) || "".equals(avatar)) {
+        if ("".equals(name) || "".equals(groupId) || "".equals(avatar)) {
             return new UniversalVo(1, "参数不能为空");
         } else {
-            Integer s = groupService.create(key, name, avatar);
-            groupMembersService.addGroupMember(key, 1L, user.getUid());
-            groupMembersService.setPri(key, user.getUid(), 2L);
+            Integer s = groupService.create(groupId, name, avatar);
+            if (s == 0)
+                SessionUtils.addOnlineMember(groupId, user.getUid());
+            groupMembersService.addGroupMember(groupId, 1L, user.getUid());
+            groupMembersService.setPri(groupId, user.getUid(), 2L);
             return new UniversalVo(s != 0 ? 0 : 1, s != 0 ? "创建成功" : "创建失败");
         }
     }
@@ -97,6 +100,8 @@ public class GroupController {
             return new UniversalVo(1, "群组不存在");
         } else {
             Integer res = groupMembersService.addGroupMember(groupId, 1L, user.getUid());
+            if (res == 0)
+                SessionUtils.addOnlineMember(groupId, user.getUid());
             return new UniversalVo(res != 1 ? res : 0, res != 1 ? "加入失败" : "加入成功");
         }
     }
