@@ -1,7 +1,13 @@
 package cn.sonui.onlinechat.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Date;
 
+/**
+ * @author Sonui
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileModel {
     private String id;
     private String name;
