@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
 /**
  * @author Sonui
@@ -33,5 +34,14 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
     @Bean
     public WebSocketShakeInterceptor webSocketShakeInterceptor() {
         return new WebSocketShakeInterceptor();
+    }
+    @Bean
+    public ServletServerContainerFactoryBean createWebSocketContainer() {
+        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
+        // 在此处设置bufferSize
+        container.setMaxTextMessageBufferSize(512000);
+        container.setMaxBinaryMessageBufferSize(512000);
+        container.setMaxSessionIdleTimeout(15 * 60000L);
+        return container;
     }
 }
